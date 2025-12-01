@@ -612,10 +612,135 @@
         width: 90%;
       }
     }
-  </style>
+  <</style>
 </head>
 <body>
-<script>
+  <div class="app">
+    <div class="app-header">
+      <div class="app-title-wrap">
+        <div class="app-title-row">
+          <div class="app-title">
+            <span class="app-title-emoji">💬</span>
+            상담 메크로 스튜디오
+          </div>
+          <div class="app-tag">
+            <span>⚡ 빠른 답변</span>
+            <span>·</span>
+            <span>Mz 감성 UI</span>
+          </div>
+        </div>
+        <div class="app-subtitle">
+          왼쪽에서 템플릿을 고르고, 오른쪽에서 고객님 상황에 맞게 살짝 커스터마이징해서 복사해 쓰는 공간이에요.
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="sheetOpenBtn" class="sheet-button" type="button">
+          <span class="icon">📄</span>
+          <span>Google Sheets 열기</span>
+        </button>
+        <div class="sheet-caption">원본 메크로 DB를 바로 수정하고 싶을 때 클릭</div>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <input
+        id="searchInput"
+        class="search-input"
+        type="text"
+        placeholder="메크로 제목 또는 키워드를 검색해 보세요 (예: 배송, 교환, 위로 멘트 등)"
+      />
+      <button id="searchButton" class="search-button" type="button">
+        <span class="icon">🔍</span>
+        <span>검색</span>
+      </button>
+    </div>
+
+    <div class="top-row">
+      <div id="resultCount" class="result-count">총 <strong>0</strong>개 메크로</div>
+      <div class="category-filter">
+        분류:
+        <select id="categorySelect" class="category-select">
+          <option value="">전체</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="app-body">
+      <!-- 왼쪽: 리스트 -->
+      <div class="list-panel">
+        <div class="list-header">
+          <div class="list-title">
+            <span class="icon">📚</span>
+            메크로 목록
+          </div>
+          <div class="list-hint">항목에 마우스를 올리면 위에 미리보기 버블이 떠요</div>
+        </div>
+
+        <!-- 미리보기 버블 -->
+        <div id="previewBubble" class="preview-bubble">
+          <div class="preview-title">
+            <span class="icon">👀</span>
+            <span id="previewTitleText">미리보기</span>
+          </div>
+          <div id="previewBodyText" class="preview-body"></div>
+        </div>
+
+        <div id="results" class="results"></div>
+      </div>
+
+      <!-- 오른쪽: 편집 -->
+      <div class="editor-panel">
+        <div class="editor-header">
+          <div class="editor-title-wrap">
+            <div class="editor-label">ACTIVE MACRO</div>
+            <div class="editor-title-line">
+              <div id="editorTitle">왼쪽에서 메크로를 선택해 주세요</div>
+              <div id="editorCategory" style="display:none;"></div>
+            </div>
+            <div class="editor-hint">
+              선택한 메크로 문구를 여기에서 자유롭게 수정한 뒤, 아래 <strong>복사하기</strong> 버튼을 눌러서 상담창에 붙여넣어 주세요. ✨
+            </div>
+            <div class="snippet-controls">
+              <span class="snippet-label">빠른 문구:</span>
+              <button type="button" class="snippet-btn" data-snippet="header">
+                <span class="icon">👋</span><span>머리말</span>
+              </button>
+              <button type="button" class="snippet-btn" data-snippet="apology">
+                <span class="icon">💜</span><span>사과</span>
+              </button>
+              <button type="button" class="snippet-btn" data-snippet="footer">
+                <span class="icon">🙏</span><span>꼬리말</span>
+              </button>
+            </div>
+          </div>
+          <div class="editor-actions">
+            <button id="editorCopyBtn" class="copy-main" type="button" disabled>
+              <span class="icon">📋</span>
+              <span>복사하기</span>
+            </button>
+            <button id="editorResetBtn" class="reset-btn" type="button" disabled>원본으로 되돌리기</button>
+          </div>
+        </div>
+
+        <textarea
+          id="editorTextarea"
+          class="editor-textarea"
+          placeholder="선택한 메크로가 여기에 표시됩니다."
+          disabled
+        ></textarea>
+
+        <div class="editor-footer">
+          <span id="editorMeta">선택된 메크로 없음</span>
+          <span id="charCount">0자</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 토스트 -->
+  <div id="toast" class="toast">복사되었습니다</div>
+
+  <script>
     const SHEET_ID = "1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM";
     const SHEET_GID = "1260123292";
     const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
@@ -982,4 +1107,3 @@
   </script>
 </body>
 </html>
-
