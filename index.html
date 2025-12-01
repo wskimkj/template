@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>상담 메크로 검색 도구</title>
+  <title>상담 메크로 검색 · 편집</title>
   <style>
     * { box-sizing: border-box; }
 
@@ -11,32 +11,52 @@
       margin: 0;
       padding: 24px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
-      background: #f3f4f6;
+      background: radial-gradient(circle at top left, #eef2ff, #f9fafb 45%, #f3f4f6);
       display: flex;
       justify-content: center;
     }
 
     .app {
       width: 100%;
-      max-width: 900px;
+      max-width: 1100px;
       background: #ffffff;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
-      padding: 20px 24px 24px;
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
+      padding: 20px 22px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
 
     .app-header {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 16px;
-      gap: 12px;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+
+    .app-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .app-title {
       font-size: 20px;
       font-weight: 700;
       color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .app-pill {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #eef2ff;
+      color: #4f46e5;
     }
 
     .app-subtitle {
@@ -47,7 +67,7 @@
     .search-box {
       display: flex;
       gap: 8px;
-      margin-bottom: 12px;
+      margin-bottom: 4px;
     }
 
     .search-input {
@@ -57,19 +77,21 @@
       border: 1px solid #d1d5db;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+      background: #f9fafb;
     }
 
     .search-input:focus {
       border-color: #6366f1;
-      box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.45);
+      background: #ffffff;
     }
 
     .search-button {
       padding: 0 16px;
       border-radius: 999px;
       border: none;
-      background: #6366f1;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
       color: #ffffff;
       font-size: 14px;
       font-weight: 600;
@@ -77,19 +99,22 @@
       white-space: nowrap;
     }
 
-    .search-button:hover { opacity: 0.95; }
+    .search-button:hover {
+      opacity: 0.96;
+      transform: translateY(-0.5px);
+    }
 
-    .filter-row {
+    .top-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
       gap: 8px;
       flex-wrap: wrap;
+      margin-bottom: 4px;
     }
 
     .result-count {
-      font-size: 13px;
+      font-size: 12px;
       color: #6b7280;
     }
 
@@ -109,20 +134,69 @@
       background: #f9fafb;
     }
 
+    .app-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
+      gap: 16px;
+      min-height: 420px;
+    }
+
+    /* 왼쪽: 메크로 리스트 */
+    .list-panel {
+      border-radius: 18px;
+      background: #f9fafb;
+      padding: 10px 10px 10px 12px;
+      border: 1px solid #e5e7eb;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .list-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .list-hint {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
     .results {
-      max-height: 520px;
+      flex: 1;
       overflow: auto;
       padding-right: 4px;
       border-top: 1px solid #e5e7eb;
-      margin-top: 8px;
+      margin-top: 4px;
     }
 
     .macro-item {
-      padding: 12px 4px 12px 0;
+      padding: 9px 4px 9px 0;
       border-bottom: 1px dashed #e5e7eb;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 4px;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: background-color 0.12s, box-shadow 0.12s, transform 0.05s;
+    }
+
+    .macro-item:hover {
+      background: #eef2ff80;
+      box-shadow: 0 1px 0 rgba(148, 163, 184, 0.5);
+      transform: translateY(-0.5px);
+    }
+
+    .macro-item.active {
+      background: #eef2ff;
+      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.6);
     }
 
     .macro-header {
@@ -133,49 +207,177 @@
     }
 
     .macro-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #111827;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .macro-category {
-      font-size: 11px;
+      font-size: 10px;
       border-radius: 999px;
-      padding: 2px 8px;
+      padding: 1px 7px;
       background: #eef2ff;
       color: #4f46e5;
     }
 
-    .copy-button {
-      padding: 4px 10px;
-      font-size: 12px;
+    .macro-subtext {
+      font-size: 11px;
+      color: #9ca3af;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .copy-mini {
+      padding: 3px 8px;
+      font-size: 11px;
       border-radius: 999px;
       border: 1px solid #d1d5db;
-      background: #f9fafb;
+      background: #ffffff;
       cursor: pointer;
       flex-shrink: 0;
     }
 
-    .copy-button:hover { background: #e5e7eb; }
-
-    .macro-content {
-      font-size: 13px;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      color: #374151;
-      background: #f9fafb;
-      border-radius: 10px;
-      padding: 8px 10px;
+    .copy-mini:hover {
+      background: #e5e7eb;
     }
 
     .empty-state {
-      padding: 32px 8px;
+      padding: 24px 4px;
       text-align: center;
       color: #9ca3af;
+      font-size: 13px;
+    }
+
+    /* 오른쪽: 편집 패널 */
+    .editor-panel {
+      border-radius: 18px;
+      border: 1px solid #e5e7eb;
+      background: linear-gradient(135deg, #f9fafb, #eef2ff);
+      padding: 12px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .editor-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .editor-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .editor-title-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    #editorTitle {
       font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    #editorCategory {
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: rgba(79, 70, 229, 0.1);
+      color: #4f46e5;
+    }
+
+    .editor-hint {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .editor-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 6px;
+    }
+
+    .copy-main {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: none;
+      background: #111827;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .copy-main:hover {
+      background: #0f172a;
+      transform: translateY(-0.5px);
+    }
+
+    .reset-btn {
+      border: none;
+      background: none;
+      font-size: 11px;
+      color: #6b7280;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    .editor-textarea {
+      width: 100%;
+      flex: 1;
+      min-height: 260px;
+      resize: vertical;
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
+      padding: 10px 11px;
+      font-family: inherit;
+      font-size: 13px;
+      line-height: 1.5;
+      outline: none;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
+    }
+
+    .editor-textarea:focus {
+      border-color: #6366f1;
+      box-shadow:
+        inset 0 1px 2px rgba(15, 23, 42, 0.06),
+        0 0 0 1px rgba(129, 140, 248, 0.5);
+      background: #ffffff;
+    }
+
+    .editor-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    .editor-footer span strong {
+      color: #6b7280;
     }
 
     .toast {
@@ -191,7 +393,7 @@
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+      transition: opacity 0.18s ease-out, transform 0.18s ease-out;
       z-index: 9999;
     }
 
@@ -200,20 +402,28 @@
       transform: translateX(-50%) translateY(-4px);
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 900px) {
       body { padding: 12px; }
-      .app { padding: 16px 16px 18px; }
-      .search-button { padding: 0 12px; }
+      .app { padding: 16px 14px 16px; }
+      .app-body {
+        grid-template-columns: 1fr;
+      }
+      .editor-panel {
+        min-height: 260px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="app">
     <div class="app-header">
-      <div>
-        <div class="app-title">상담 메크로 검색</div>
+      <div class="app-title-wrap">
+        <div class="app-title">
+          상담 메크로 검색 · 편집
+          <span class="app-pill">Google Sheets 연동</span>
+        </div>
         <div class="app-subtitle">
-          구글 시트에서 템플릿 불러와서, 검색 → 클릭 한 번으로 멘트 복사
+          왼쪽에서 메크로를 고르고, 오른쪽에서 문구를 살짝 손본 뒤 복사해서 바로 붙여넣기 ✨
         </div>
       </div>
     </div>
@@ -228,17 +438,58 @@
       <button id="searchButton" class="search-button">검색</button>
     </div>
 
-    <div class="filter-row">
+    <div class="top-row">
       <div id="resultCount" class="result-count">총 0개 메크로</div>
       <div class="category-filter">
-        분류 필터:
+        분류:
         <select id="categorySelect" class="category-select">
           <option value="">전체</option>
         </select>
       </div>
     </div>
 
-    <div id="results" class="results"></div>
+    <div class="app-body">
+      <!-- 왼쪽: 리스트 -->
+      <div class="list-panel">
+        <div class="list-header">
+          <div class="list-title">메크로 목록</div>
+          <div class="list-hint">항목을 클릭하면 우측에 편집창이 열립니다</div>
+        </div>
+        <div id="results" class="results"></div>
+      </div>
+
+      <!-- 오른쪽: 편집 -->
+      <div class="editor-panel">
+        <div class="editor-header">
+          <div class="editor-title-wrap">
+            <div class="editor-label">ACTIVE MACRO</div>
+            <div class="editor-title-line">
+              <div id="editorTitle">왼쪽에서 메크로를 선택해 주세요</div>
+              <div id="editorCategory" style="display:none;"></div>
+            </div>
+            <div class="editor-hint">
+              선택한 메크로 문구를 여기에서 자유롭게 수정한 뒤, 아래 <strong>복사하기</strong> 버튼을 눌러주세요.
+            </div>
+          </div>
+          <div class="editor-actions">
+            <button id="editorCopyBtn" class="copy-main" disabled>복사하기</button>
+            <button id="editorResetBtn" class="reset-btn" disabled>원본으로 되돌리기</button>
+          </div>
+        </div>
+
+        <textarea
+          id="editorTextarea"
+          class="editor-textarea"
+          placeholder="선택한 메크로가 여기에 표시됩니다."
+          disabled
+        ></textarea>
+
+        <div class="editor-footer">
+          <span id="editorMeta">선택된 메크로 없음</span>
+          <span id="charCount">0자</span>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div id="toast" class="toast">복사되었습니다</div>
@@ -247,13 +498,14 @@
     // === 1) 구글 시트 설정값 ===
     const SHEET_ID = "1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM";
     const SHEET_GID = "1260123292";
-
-    // A열: 제목, B열: 분류, C열: 실제 멘트 내용 이라고 가정
     const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
 
     let macros = [];
+    let filteredMacros = [];
+    let activeMacro = null; // { title, category, content }
+    let toastTimer = null;
 
-    // === 2) CSV 파서 (따옴표, 콤마 포함 텍스트 처리) ===
+    // === 2) CSV 파서 ===
     function parseCSV(text) {
       const rows = [];
       let row = [];
@@ -265,7 +517,6 @@
         const next = text[i + 1];
 
         if (char === '"' && insideQuotes && next === '"') {
-          // "" -> " 이스케이프
           cur += '"';
           i++;
         } else if (char === '"') {
@@ -297,9 +548,7 @@
         const res = await fetch(CSV_URL);
         const text = await res.text();
         const rows = parseCSV(text);
-
-        // 1행은 헤더라고 가정하고 2행부터 사용
-        const dataRows = rows.slice(1);
+        const dataRows = rows.slice(1); // 1행 = 헤더
 
         macros = dataRows
           .map((cols) => {
@@ -311,11 +560,12 @@
           })
           .filter(Boolean);
 
+        filteredMacros = macros.slice();
         initCategoryOptions();
-        renderResults(macros);
+        renderResults(filteredMacros);
       } catch (e) {
         console.error(e);
-        alert("구글 시트 데이터를 불러오지 못했습니다. 공유 설정(링크 있는 모든 사용자: 보기)을 확인해주세요.");
+        alert("구글 시트 데이터를 불러오지 못했습니다. 공유 설정과 URL을 다시 확인해주세요.");
       }
     }
 
@@ -325,11 +575,19 @@
     const resultsEl = document.getElementById("results");
     const resultCountEl = document.getElementById("resultCount");
     const categorySelect = document.getElementById("categorySelect");
+
+    const editorTitleEl = document.getElementById("editorTitle");
+    const editorCategoryEl = document.getElementById("editorCategory");
+    const editorTextarea = document.getElementById("editorTextarea");
+    const editorCopyBtn = document.getElementById("editorCopyBtn");
+    const editorResetBtn = document.getElementById("editorResetBtn");
+    const editorMetaEl = document.getElementById("editorMeta");
+    const charCountEl = document.getElementById("charCount");
+
     const toastEl = document.getElementById("toast");
 
-    // === 5) 분류 옵션 생성 ===
+    // === 5) 카테고리 옵션 생성 ===
     function initCategoryOptions() {
-      // 기존 옵션(전체) 제외하고 삭제
       while (categorySelect.options.length > 1) {
         categorySelect.remove(1);
       }
@@ -355,26 +613,26 @@
       const query = searchInput.value.trim().toLowerCase();
       const selectedCategory = categorySelect.value;
 
-      let filtered = macros;
+      filteredMacros = macros;
 
       if (selectedCategory) {
-        filtered = filtered.filter(
+        filteredMacros = filteredMacros.filter(
           (m) => (m.category || "").trim() === selectedCategory
         );
       }
 
       if (query) {
-        filtered = filtered.filter((m) => {
+        filteredMacros = filteredMacros.filter((m) => {
           const title = (m.title || "").toLowerCase();
           const content = (m.content || "").toLowerCase();
           return title.includes(query) || content.includes(query);
         });
       }
 
-      renderResults(filtered);
+      renderResults(filteredMacros);
     }
 
-    // === 7) 결과 렌더링 ===
+    // === 7) 리스트 렌더링 ===
     function renderResults(list) {
       resultsEl.innerHTML = "";
       resultCountEl.textContent = `총 ${list.length}개 메크로`;
@@ -387,9 +645,14 @@
         return;
       }
 
-      list.forEach((macro) => {
+      list.forEach((macro, index) => {
         const item = document.createElement("div");
         item.className = "macro-item";
+        item.dataset.index = index;
+
+        if (activeMacro && activeMacro.__id === macro.__id) {
+          item.classList.add("active");
+        }
 
         const header = document.createElement("div");
         header.className = "macro-header";
@@ -405,28 +668,70 @@
           titleWrap.appendChild(cat);
         }
 
-        const copyBtn = document.createElement("button");
-        copyBtn.className = "copy-button";
-        copyBtn.textContent = "멘트 복사";
-        copyBtn.addEventListener("click", () =>
-          copyToClipboard(macro.content || "")
-        );
+        const miniCopy = document.createElement("button");
+        miniCopy.className = "copy-mini";
+        miniCopy.textContent = "원본 복사";
+        miniCopy.addEventListener("click", (e) => {
+          e.stopPropagation();
+          copyToClipboard(macro.content || "");
+        });
 
         header.appendChild(titleWrap);
-        header.appendChild(copyBtn);
+        header.appendChild(miniCopy);
 
-        const content = document.createElement("div");
-          content.className = "macro-content";
-          content.textContent = macro.content || "";
+        const sub = document.createElement("div");
+        sub.className = "macro-subtext";
+        sub.textContent = (macro.content || "").replace(/\s+/g, " ").slice(0, 60) + (macro.content.length > 60 ? "…" : "");
 
         item.appendChild(header);
-        item.appendChild(content);
+        item.appendChild(sub);
+
+        item.addEventListener("click", () => {
+          selectMacro(macro);
+          // active 스타일 갱신
+          document.querySelectorAll(".macro-item").forEach((el) => {
+            el.classList.remove("active");
+          });
+          item.classList.add("active");
+        });
 
         resultsEl.appendChild(item);
       });
     }
 
-    // === 8) 클립보드 복사 ===
+    // === 8) 메크로 선택 → 편집창으로 로드 ===
+    function selectMacro(macro) {
+      activeMacro = {
+        ...macro,
+        __id: macro.__id || `${macro.title}-${Math.random().toString(36).slice(2)}`
+      };
+
+      editorTitleEl.textContent = activeMacro.title || "(제목 없음)";
+      if (activeMacro.category) {
+        editorCategoryEl.textContent = activeMacro.category;
+        editorCategoryEl.style.display = "inline-block";
+      } else {
+        editorCategoryEl.style.display = "none";
+      }
+
+      editorTextarea.disabled = false;
+      editorCopyBtn.disabled = false;
+      editorResetBtn.disabled = false;
+
+      editorTextarea.value = activeMacro.content || "";
+      updateCharCount();
+      editorMetaEl.textContent = "선택된 메크로 편집 중";
+    }
+
+    // === 9) 편집창: 글자수 표시 ===
+    function updateCharCount() {
+      const len = editorTextarea.value.length;
+      charCountEl.textContent = `${len}자`;
+    }
+
+    editorTextarea && editorTextarea.addEventListener("input", updateCharCount);
+
+    // === 10) 클립보드 복사 ===
     function copyToClipboard(text) {
       if (!text) return;
 
@@ -459,9 +764,24 @@
       }
     }
 
-    // === 9) 토스트 메시지 ===
-    let toastTimer = null;
-    function showToast() {
+    // 편집창 복사 버튼
+    editorCopyBtn.addEventListener("click", () => {
+      const text = editorTextarea.value || "";
+      if (!text) return;
+      copyToClipboard(text);
+    });
+
+    // === 11) 원본으로 되돌리기 ===
+    editorResetBtn.addEventListener("click", () => {
+      if (!activeMacro) return;
+      editorTextarea.value = activeMacro.content || "";
+      updateCharCount();
+      showToast("원본으로 되돌렸습니다");
+    });
+
+    // === 12) 토스트 ===
+    function showToast(message) {
+      toastEl.textContent = message || "복사되었습니다";
       toastEl.classList.add("show");
       if (toastTimer) clearTimeout(toastTimer);
       toastTimer = setTimeout(() => {
@@ -469,7 +789,7 @@
       }, 1500);
     }
 
-    // === 10) 이벤트 바인딩 & 초기 로드 ===
+    // === 13) 이벤트 바인딩 & 초기 로드 ===
     searchButton.addEventListener("click", searchMacros);
     searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") searchMacros();
