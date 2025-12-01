@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상담 메크로 검색 도구</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: #f3f4f6;
+      display: flex;
+      justify-content: center;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 900px;
+      background: #ffffff;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+      padding: 20px 24px 24px;
+    }
+
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+
+    .app-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .app-subtitle {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .search-input {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .search-input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.4);
+    }
+
+    .search-button {
+      padding: 0 16px;
+      border-radius: 999px;
+      border: none;
+      background: #6366f1;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .search-button:hover { opacity: 0.95; }
+
+    .filter-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .result-count {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .category-filter {
+      font-size: 12px;
+      color: #4b5563;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .category-select {
+      padding: 4px 8px;
+      font-size: 12px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+    }
+
+    .results {
+      max-height: 520px;
+      overflow: auto;
+      padding-right: 4px;
+      border-top: 1px solid #e5e7eb;
+      margin-top: 8px;
+    }
+
+    .macro-item {
+      padding: 12px 4px 12px 0;
+      border-bottom: 1px dashed #e5e7eb;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .macro-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .macro-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .macro-category {
+      font-size: 11px;
+      border-radius: 999px;
+      padding: 2px 8px;
+      background: #eef2ff;
+      color: #4f46e5;
+    }
+
+    .copy-button {
+      padding: 4px 10px;
+      font-size: 12px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .copy-button:hover { background: #e5e7eb; }
+
+    .macro-content {
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      color: #374151;
+      background: #f9fafb;
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
+
+    .empty-state {
+      padding: 32px 8px;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 24px;
+      transform: translateX(-50%);
+      background: #111827;
+      color: #ffffff;
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+      z-index: 9999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(-4px);
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      .app { padding: 16px 16px 18px; }
+      .search-button { padding: 0 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="app-header">
+      <div>
+        <div class="app-title">상담 메크로 검색</div>
+        <div class="app-subtitle">
+          구글 시트에서 템플릿 불러와서, 검색 → 클릭 한 번으로 멘트 복사
+        </div>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <input
+        id="searchInput"
+        class="search-input"
+        type="text"
+        placeholder="메크로 제목 또는 키워드를 입력하세요 (예: 교환 안내, 배송 지연, 위로 멘트 등)"
+      />
+      <button id="searchButton" class="search-button">검색</button>
+    </div>
+
+    <div class="filter-row">
+      <div id="resultCount" class="result-count">총 0개 메크로</div>
+      <div class="category-filter">
+        분류 필터:
+        <select id="categorySelect" class="category-select">
+          <option value="">전체</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="results" class="results"></div>
+  </div>
+
+  <div id="toast" class="toast">복사되었습니다</div>
+
+  <script>
+    // === 1) 구글 시트 설정값 ===
+    const SHEET_ID = "1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM";
+    const SHEET_GID = "1260123292";
+
+    // A열: 제목, B열: 분류, C열: 실제 멘트 내용 이라고 가정
+    const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
+
+    let macros = [];
+
+    // === 2) CSV 파서 (따옴표, 콤마 포함 텍스트 처리) ===
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let cur = "";
+      let insideQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"' && insideQuotes && next === '"') {
+          // "" -> " 이스케이프
+          cur += '"';
+          i++;
+        } else if (char === '"') {
+          insideQuotes = !insideQuotes;
+        } else if (char === "," && !insideQuotes) {
+          row.push(cur);
+          cur = "";
+        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
+          if (cur.length > 0 || row.length > 0) {
+            row.push(cur);
+            rows.push(row);
+            row = [];
+            cur = "";
+          }
+        } else {
+          cur += char;
+        }
+      }
+      if (cur.length > 0 || row.length > 0) {
+        row.push(cur);
+        rows.push(row);
+      }
+      return rows;
+    }
+
+    // === 3) 구글 시트에서 데이터 로드 ===
+    async function loadMacrosFromSheet() {
+      try {
+        const res = await fetch(CSV_URL);
+        const text = await res.text();
+        const rows = parseCSV(text);
+
+        // 1행은 헤더라고 가정하고 2행부터 사용
+        const dataRows = rows.slice(1);
+
+        macros = dataRows
+          .map((cols) => {
+            const title = (cols[0] || "").trim();
+            const category = (cols[1] || "").trim();
+            const content = (cols[2] || "").trim();
+            if (!title && !content) return null;
+            return { title, category, content };
+          })
+          .filter(Boolean);
+
+        initCategoryOptions();
+        renderResults(macros);
+      } catch (e) {
+        console.error(e);
+        alert("구글 시트 데이터를 불러오지 못했습니다. 공유 설정(링크 있는 모든 사용자: 보기)을 확인해주세요.");
+      }
+    }
+
+    // === 4) DOM 요소 ===
+    const searchInput = document.getElementById("searchInput");
+    const searchButton = document.getElementById("searchButton");
+    const resultsEl = document.getElementById("results");
+    const resultCountEl = document.getElementById("resultCount");
+    const categorySelect = document.getElementById("categorySelect");
+    const toastEl = document.getElementById("toast");
+
+    // === 5) 분류 옵션 생성 ===
+    function initCategoryOptions() {
+      // 기존 옵션(전체) 제외하고 삭제
+      while (categorySelect.options.length > 1) {
+        categorySelect.remove(1);
+      }
+
+      const categories = Array.from(
+        new Set(
+          macros
+            .map((m) => (m.category || "").trim())
+            .filter((c) => c.length > 0)
+        )
+      ).sort();
+
+      categories.forEach((cat) => {
+        const opt = document.createElement("option");
+        opt.value = cat;
+        opt.textContent = cat;
+        categorySelect.appendChild(opt);
+      });
+    }
+
+    // === 6) 검색 ===
+    function searchMacros() {
+      const query = searchInput.value.trim().toLowerCase();
+      const selectedCategory = categorySelect.value;
+
+      let filtered = macros;
+
+      if (selectedCategory) {
+        filtered = filtered.filter(
+          (m) => (m.category || "").trim() === selectedCategory
+        );
+      }
+
+      if (query) {
+        filtered = filtered.filter((m) => {
+          const title = (m.title || "").toLowerCase();
+          const content = (m.content || "").toLowerCase();
+          return title.includes(query) || content.includes(query);
+        });
+      }
+
+      renderResults(filtered);
+    }
+
+    // === 7) 결과 렌더링 ===
+    function renderResults(list) {
+      resultsEl.innerHTML = "";
+      resultCountEl.textContent = `총 ${list.length}개 메크로`;
+
+      if (list.length === 0) {
+        const empty = document.createElement("div");
+        empty.className = "empty-state";
+        empty.textContent = "검색 결과가 없습니다. 키워드를 바꿔서 다시 시도해 주세요.";
+        resultsEl.appendChild(empty);
+        return;
+      }
+
+      list.forEach((macro) => {
+        const item = document.createElement("div");
+        item.className = "macro-item";
+
+        const header = document.createElement("div");
+        header.className = "macro-header";
+
+        const titleWrap = document.createElement("div");
+        titleWrap.className = "macro-title";
+        titleWrap.textContent = macro.title || "(제목 없음)";
+
+        if (macro.category) {
+          const cat = document.createElement("span");
+          cat.className = "macro-category";
+          cat.textContent = macro.category;
+          titleWrap.appendChild(cat);
+        }
+
+        const copyBtn = document.createElement("button");
+        copyBtn.className = "copy-button";
+        copyBtn.textContent = "멘트 복사";
+        copyBtn.addEventListener("click", () =>
+          copyToClipboard(macro.content || "")
+        );
+
+        header.appendChild(titleWrap);
+        header.appendChild(copyBtn);
+
+        const content = document.createElement("div");
+          content.className = "macro-content";
+          content.textContent = macro.content || "";
+
+        item.appendChild(header);
+        item.appendChild(content);
+
+        resultsEl.appendChild(item);
+      });
+    }
+
+    // === 8) 클립보드 복사 ===
+    function copyToClipboard(text) {
+      if (!text) return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard
+          .writeText(text)
+          .then(showToast)
+          .catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.style.position = "fixed";
+      textarea.style.left = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+
+      try {
+        document.execCommand("copy");
+        showToast();
+      } catch (e) {
+        alert("복사에 실패했습니다. 직접 선택해서 복사해 주세요.");
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    }
+
+    // === 9) 토스트 메시지 ===
+    let toastTimer = null;
+    function showToast() {
+      toastEl.classList.add("show");
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, 1500);
+    }
+
+    // === 10) 이벤트 바인딩 & 초기 로드 ===
+    searchButton.addEventListener("click", searchMacros);
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") searchMacros();
+    });
+    categorySelect.addEventListener("change", searchMacros);
+
+    // 페이지 열리면 시트에서 데이터 불러오기
+    loadMacrosFromSheet();
+  </script>
+</body>
+</html>
