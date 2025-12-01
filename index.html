@@ -110,10 +110,6 @@
       backdrop-filter: blur(10px);
     }
 
-    .sheet-button span.icon {
-      font-size: 14px;
-    }
-
     .sheet-button:hover {
       background: #e5e7eb;
     }
@@ -137,17 +133,14 @@
       border: 1px solid #d1d5db;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s, transform 0.05s;
       background: #f9fafb;
+      transition: all 0.15s ease;
     }
 
     .search-input:focus {
       border-color: #818cf8;
-      box-shadow:
-        0 0 0 1px rgba(129, 140, 248, 0.5),
-        0 10px 25px rgba(129, 140, 248, 0.18);
+      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.5);
       background: #ffffff;
-      transform: translateY(-0.5px);
     }
 
     .search-button {
@@ -164,51 +157,19 @@
       align-items: center;
       gap: 6px;
       box-shadow: 0 10px 25px rgba(129, 140, 248, 0.45);
-      flex-shrink: 0;
-    }
-
-    .search-button:hover {
-      opacity: 0.97;
-      transform: translateY(-0.5px);
-    }
-
-    .search-button span.icon {
-      font-size: 14px;
     }
 
     .top-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 8px;
       flex-wrap: wrap;
-      margin-bottom: 4px;
-      flex-shrink: 0;
+      gap: 8px;
     }
 
     .result-count {
       font-size: 12px;
       color: #6b7280;
-    }
-
-    .result-count strong {
-      color: #4f46e5;
-    }
-
-    .category-filter {
-      font-size: 12px;
-      color: #4b5563;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .category-select {
-      padding: 4px 8px;
-      font-size: 12px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: #f9fafb;
     }
 
     .app-body {
@@ -222,11 +183,10 @@
     .list-panel {
       border-radius: 20px;
       background: linear-gradient(145deg, #f9fafb, #eef2ff);
-      padding: 10px 10px 10px 12px;
+      padding: 10px 12px;
       border: 1px solid rgba(209, 213, 219, 0.9);
       display: flex;
       flex-direction: column;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
       min-height: 0;
       position: relative;
     }
@@ -234,876 +194,86 @@
     .list-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
       margin-bottom: 6px;
-      flex-shrink: 0;
-    }
-
-    .list-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #4b5563;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .list-title span.icon {
-      font-size: 14px;
-    }
-
-    .list-hint {
-      font-size: 11px;
-      color: #9ca3af;
     }
 
     .results {
       flex: 1;
       overflow: auto;
-      padding-right: 4px;
       border-top: 1px solid #e5e7eb;
       margin-top: 4px;
+      padding-right: 4px;
     }
 
     .macro-item {
       padding: 9px 6px 9px 4px;
+      cursor: pointer;
       border-bottom: 1px dashed rgba(209, 213, 219, 0.9);
+      border-radius: 12px;
+      transition: 0.12s;
       display: flex;
       flex-direction: column;
       gap: 4px;
-      cursor: pointer;
-      border-radius: 12px;
-      transition: background-color 0.12s, box-shadow 0.12s, transform 0.05s, border-color 0.12s;
     }
 
     .macro-item:hover {
       background: rgba(224, 231, 255, 0.85);
-      box-shadow:
-        0 1px 0 rgba(148, 163, 184, 0.7),
-        0 6px 16px rgba(129, 140, 248, 0.25);
-      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(129, 140, 248, 0.25);
     }
 
     .macro-item.active {
       background: rgba(224, 231, 255, 1);
       box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.9);
-      border-color: transparent;
     }
 
     .macro-header {
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      gap: 8px;
     }
 
     .macro-title {
       font-size: 13px;
       font-weight: 600;
-      color: #111827;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
 
     .macro-category {
       font-size: 10px;
-      border-radius: 999px;
       padding: 2px 8px;
+      border-radius: 999px;
       background: #eef2ff;
-      color: #4f46e5;
       border: 1px solid rgba(129, 140, 248, 0.3);
-    }
-
-    .macro-subtext {
-      font-size: 11px;
-      color: #6b7280;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .copy-mini {
-      padding: 3px 8px;
-      font-size: 11px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background: rgba(255, 255, 255, 0.9);
-      cursor: pointer;
-      flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .copy-mini span.icon {
-      font-size: 12px;
-    }
-
-    .copy-mini:hover {
-      background: #e5e7eb;
-    }
-
-    .empty-state {
-      padding: 24px 4px;
-      text-align: center;
-      color: #9ca3af;
-      font-size: 13px;
-    }
-
-    .editor-panel {
-      border-radius: 20px;
-      border: 1px solid rgba(209, 213, 219, 0.9);
-      background: radial-gradient(circle at top left, #eef2ff, #f9fafb 55%);
-      padding: 12px 14px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      box-shadow:
-        0 12px 30px rgba(148, 163, 184, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
-      min-height: 0;
-    }
-
-    .editor-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .editor-title-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .editor-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.09em;
-      text-transform: uppercase;
-      color: #9ca3af;
-    }
-
-    .editor-title-line {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    #editorTitle {
-      font-size: 14px;
-      font-weight: 600;
-      color: #111827;
-    }
-
-    #editorCategory {
-      font-size: 11px;
-      border-radius: 999px;
-      padding: 2px 9px;
-      background: rgba(79, 70, 229, 0.1);
       color: #4f46e5;
-      border: 1px solid rgba(129, 140, 248, 0.5);
     }
 
-    .editor-hint {
-      font-size: 11px;
-      color: #6b7280;
-    }
-
-    .snippet-controls {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .snippet-label {
-      font-size: 11px;
-      color: #6b7280;
-      margin-right: 2px;
-    }
-
-    .snippet-btn {
-      font-size: 11px;
-      border-radius: 999px;
-      padding: 3px 9px;
-      border: 1px solid rgba(148, 163, 184, 0.9);
-      background: rgba(255, 255, 255, 0.9);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .snippet-btn:hover {
-      background: #e5e7eb;
-    }
-
-    .snippet-btn span.icon {
-      font-size: 12px;
-    }
-
-    .editor-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-    }
-
-    .copy-main {
-      padding: 7px 16px;
-      border-radius: 999px;
-      border: none;
-      background: #111827;
-      color: #ffffff;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.45);
-    }
-
-    .copy-main span.icon {
-      font-size: 14px;
-    }
-
-    .copy-main:hover {
-      background: #020617;
-      transform: translateY(-0.5px);
-    }
-
-    .reset-btn {
-      border: none;
-      background: none;
-      font-size: 11px;
-      color: #6b7280;
-      cursor: pointer;
-      text-decoration: underline;
-      padding: 0;
-    }
-
-    .reset-btn:hover {
-      color: #4b5563;
-    }
-
-    .editor-textarea {
-      width: 100%;
-      flex: 1;
-      resize: none;
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.9);
-      padding: 10px 11px;
-      font-family: inherit;
-      font-size: 13px;
-      line-height: 1.5;
-      outline: none;
-      background: rgba(255, 255, 255, 0.98);
-      box-shadow:
-        inset 0 1px 2px rgba(15, 23, 42, 0.08),
-        0 0 0 1px rgba(255, 255, 255, 0.7);
-      overflow-y: auto;
-      min-height: 0;
-    }
-
-    .editor-textarea:focus {
-      border-color: #6366f1;
-      box-shadow:
-        inset 0 1px 2px rgba(15, 23, 42, 0.08),
-        0 0 0 1px rgba(129, 140, 248, 0.7);
-    }
-
-    .editor-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      color: #9ca3af;
-      flex-shrink: 0;
-      margin-top: 4px;
-    }
-
-    .editor-footer span strong {
-      color: #6b7280;
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 24px;
-      transform: translateX(-50%);
-      background: #111827;
-      color: #ffffff;
-      font-size: 13px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.35);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.18s ease-out, transform 0.18s ease-out;
-      z-index: 9999;
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(-4px);
-    }
-
-    /* 🔧 여기만 사이즈 조정됨 */
+    /* ⭐ 미리보기 버블 수정본 */
     .preview-bubble {
       position: absolute;
       top: 42px;
       left: 50%;
       transform: translateX(-50%);
-      width: 60%;          /* 70% → 60% */
-      max-height: 100px;   /* 120px → 조금만 축소 */
-      background: rgba(15, 23, 42, 0.96);
-      color: #e5e7eb;
+      width: 60%;           /* 가로 60% */
+      max-height: 100px;    /* 세로 축소 */
+      padding: 10px 12px;
       border-radius: 14px;
-      padding: 8px 10px;
-      box-shadow:
-        0 16px 32px rgba(15, 23, 42, 0.8),
-        0 0 0 1px rgba(148, 163, 184, 0.6);
-      font-size: 12px;
-      backdrop-filter: blur(12px);
-      z-index: 10;
+      background: rgba(15, 23, 42, 0.95);
+      color: #e5e7eb;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.4);
       display: none;
       pointer-events: none;
+      z-index: 20;
     }
 
     .preview-title {
+      font-size: 13px;
       font-weight: 600;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .preview-title span.icon {
-      font-size: 14px;
+      margin-bottom: 6px;
     }
 
     .preview-body {
       font-size: 12px;
-      line-height: 1.5;
-      max-height: 65px;   /* 내용 높이도 살짝 줄임 */
-      overflow: auto;
+      line-height: 1.4;
+      max-height: 65px;
       white-space: pre-wrap;
-      color: #e5e7eb;
+      overflow-y: auto;
     }
-
-    @media (max-width: 900px) {
-      body { padding: 12px; }
-      .app { padding: 16px 14px 16px; max-height: none; }
-      .app-body {
-        grid-template-columns: 1fr;
-      }
-      .editor-panel {
-        min-height: 260px;
-      }
-      .preview-bubble {
-        width: 90%;
-      }
-    }
-  <</style>
-</head>
-<body>
-  <div class="app">
-    <div class="app-header">
-      <div class="app-title-wrap">
-        <div class="app-title-row">
-          <div class="app-title">
-            <span class="app-title-emoji">💬</span>
-            상담 메크로 스튜디오
-          </div>
-          <div class="app-tag">
-            <span>⚡ 빠른 답변</span>
-            <span>·</span>
-            <span>Mz 감성 UI</span>
-          </div>
-        </div>
-        <div class="app-subtitle">
-          왼쪽에서 템플릿을 고르고, 오른쪽에서 고객님 상황에 맞게 살짝 커스터마이징해서 복사해 쓰는 공간이에요.
-        </div>
-      </div>
-      <div class="header-actions">
-        <button id="sheetOpenBtn" class="sheet-button" type="button">
-          <span class="icon">📄</span>
-          <span>Google Sheets 열기</span>
-        </button>
-        <div class="sheet-caption">원본 메크로 DB를 바로 수정하고 싶을 때 클릭</div>
-      </div>
-    </div>
-
-    <div class="search-box">
-      <input
-        id="searchInput"
-        class="search-input"
-        type="text"
-        placeholder="메크로 제목 또는 키워드를 검색해 보세요 (예: 배송, 교환, 위로 멘트 등)"
-      />
-      <button id="searchButton" class="search-button" type="button">
-        <span class="icon">🔍</span>
-        <span>검색</span>
-      </button>
-    </div>
-
-    <div class="top-row">
-      <div id="resultCount" class="result-count">총 <strong>0</strong>개 메크로</div>
-      <div class="category-filter">
-        분류:
-        <select id="categorySelect" class="category-select">
-          <option value="">전체</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="app-body">
-      <!-- 왼쪽: 리스트 -->
-      <div class="list-panel">
-        <div class="list-header">
-          <div class="list-title">
-            <span class="icon">📚</span>
-            메크로 목록
-          </div>
-          <div class="list-hint">항목에 마우스를 올리면 위에 미리보기 버블이 떠요</div>
-        </div>
-
-        <!-- 미리보기 버블 -->
-        <div id="previewBubble" class="preview-bubble">
-          <div class="preview-title">
-            <span class="icon">👀</span>
-            <span id="previewTitleText">미리보기</span>
-          </div>
-          <div id="previewBodyText" class="preview-body"></div>
-        </div>
-
-        <div id="results" class="results"></div>
-      </div>
-
-      <!-- 오른쪽: 편집 -->
-      <div class="editor-panel">
-        <div class="editor-header">
-          <div class="editor-title-wrap">
-            <div class="editor-label">ACTIVE MACRO</div>
-            <div class="editor-title-line">
-              <div id="editorTitle">왼쪽에서 메크로를 선택해 주세요</div>
-              <div id="editorCategory" style="display:none;"></div>
-            </div>
-            <div class="editor-hint">
-              선택한 메크로 문구를 여기에서 자유롭게 수정한 뒤, 아래 <strong>복사하기</strong> 버튼을 눌러서 상담창에 붙여넣어 주세요. ✨
-            </div>
-            <div class="snippet-controls">
-              <span class="snippet-label">빠른 문구:</span>
-              <button type="button" class="snippet-btn" data-snippet="header">
-                <span class="icon">👋</span><span>머리말</span>
-              </button>
-              <button type="button" class="snippet-btn" data-snippet="apology">
-                <span class="icon">💜</span><span>사과</span>
-              </button>
-              <button type="button" class="snippet-btn" data-snippet="footer">
-                <span class="icon">🙏</span><span>꼬리말</span>
-              </button>
-            </div>
-          </div>
-          <div class="editor-actions">
-            <button id="editorCopyBtn" class="copy-main" type="button" disabled>
-              <span class="icon">📋</span>
-              <span>복사하기</span>
-            </button>
-            <button id="editorResetBtn" class="reset-btn" type="button" disabled>원본으로 되돌리기</button>
-          </div>
-        </div>
-
-        <textarea
-          id="editorTextarea"
-          class="editor-textarea"
-          placeholder="선택한 메크로가 여기에 표시됩니다."
-          disabled
-        ></textarea>
-
-        <div class="editor-footer">
-          <span id="editorMeta">선택된 메크로 없음</span>
-          <span id="charCount">0자</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 토스트 -->
-  <div id="toast" class="toast">복사되었습니다</div>
-
-  <script>
-    const SHEET_ID = "1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM";
-    const SHEET_GID = "1260123292";
-    const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
-    const SHEET_LINK = "https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=1260123292#gid=1260123292`;
-
-    const DEFAULT_HEADER = "안녕하세요 화이트샌즈입니다.";
-    const DEFAULT_FOOTER = "화이트샌즈를 찾아주셔서 감사드립니다.";
-    const DEFAULT_APOLOGY = "더 좋은 상품과 서비스로 찾아뵙겠습니다.\n\n감사합니다.";
-
-    let macros = [];
-    let filteredMacros = [];
-    let activeMacro = null;
-    let toastTimer = null;
-
-    function parseCSV(text) {
-      const rows = [];
-      let row = [];
-      let cur = "";
-      let insideQuotes = false;
-
-      for (let i = 0; i < text.length; i++) {
-        const char = text[i];
-        const next = text[i + 1];
-
-        if (char === '"' && insideQuotes && next === '"') {
-          cur += '"';
-          i++;
-        } else if (char === '"') {
-          insideQuotes = !insideQuotes;
-        } else if (char === "," && !insideQuotes) {
-          row.push(cur);
-          cur = "";
-        } else if ((char === "\n" || char === "\r") && !insideQuotes) {
-          if (cur.length > 0 || row.length > 0) {
-            row.push(cur);
-            rows.push(row);
-            row = [];
-            cur = "";
-          }
-        } else {
-          cur += char;
-        }
-      }
-      if (cur.length > 0 || row.length > 0) {
-        row.push(cur);
-        rows.push(row);
-      }
-      return rows;
-    }
-
-    async function loadMacrosFromSheet() {
-      try {
-        const res = await fetch(CSV_URL);
-        const text = await res.text();
-        const rows = parseCSV(text);
-        const dataRows = rows.slice(1);
-
-        macros = dataRows
-          .map((cols, idx) => {
-            const title = (cols[0] || "").trim();
-            const category = (cols[1] || "").trim();
-            const content = (cols[2] || "").trim();
-            if (!title && !content) return null;
-            return { id: `macro-${idx}`, title, category, content };
-          })
-          .filter(Boolean);
-
-        filteredMacros = macros.slice();
-        initCategoryOptions();
-        renderResults(filteredMacros);
-      } catch (e) {
-        console.error(e);
-        alert("구글 시트 데이터를 불러오지 못했습니다. 공유 설정과 URL을 다시 확인해주세요.");
-      }
-    }
-
-    const searchInput = document.getElementById("searchInput");
-    const searchButton = document.getElementById("searchButton");
-    const resultsEl = document.getElementById("results");
-    const resultCountEl = document.getElementById("resultCount");
-    const categorySelect = document.getElementById("categorySelect");
-
-    const editorTitleEl = document.getElementById("editorTitle");
-    const editorCategoryEl = document.getElementById("editorCategory");
-    const editorTextarea = document.getElementById("editorTextarea");
-    const editorCopyBtn = document.getElementById("editorCopyBtn");
-    const editorResetBtn = document.getElementById("editorResetBtn");
-    const editorMetaEl = document.getElementById("editorMeta");
-    const charCountEl = document.getElementById("charCount");
-
-    const toastEl = document.getElementById("toast");
-
-    const previewBubbleEl = document.getElementById("previewBubble");
-    const previewTitleTextEl = document.getElementById("previewTitleText");
-    const previewBodyTextEl = document.getElementById("previewBodyText");
-
-    const sheetOpenBtn = document.getElementById("sheetOpenBtn");
-    const snippetButtons = document.querySelectorAll(".snippet-btn");
-
-    sheetOpenBtn.addEventListener("click", () => {
-      window.open(SHEET_LINK, "_blank", "noopener");
-    });
-
-    function initCategoryOptions() {
-      while (categorySelect.options.length > 1) {
-        categorySelect.remove(1);
-      }
-
-      const categories = Array.from(
-        new Set(
-          macros
-            .map((m) => (m.category || "").trim())
-            .filter((c) => c.length > 0)
-        )
-      ).sort();
-
-      categories.forEach((cat) => {
-        const opt = document.createElement("option");
-        opt.value = cat;
-        opt.textContent = cat;
-        categorySelect.appendChild(opt);
-      });
-    }
-
-    function searchMacros() {
-      const query = searchInput.value.trim().toLowerCase();
-      const selectedCategory = categorySelect.value;
-
-      filteredMacros = macros;
-
-      if (selectedCategory) {
-        filteredMacros = filteredMacros.filter(
-          (m) => (m.category || "").trim() === selectedCategory
-        );
-      }
-
-      if (query) {
-        filteredMacros = filteredMacros.filter((m) => {
-          const title = (m.title || "").toLowerCase();
-          const content = (m.content || "").toLowerCase();
-          return title.includes(query) || content.includes(query);
-        });
-      }
-
-      renderResults(filteredMacros);
-      hidePreview();
-    }
-
-    function renderResults(list) {
-      resultsEl.innerHTML = "";
-      resultCountEl.innerHTML = `총 <strong>${list.length}</strong>개 메크로`;
-
-      if (list.length === 0) {
-        const empty = document.createElement("div");
-        empty.className = "empty-state";
-        empty.textContent = "검색 결과가 없습니다. 키워드를 바꿔서 다시 시도해 주세요.";
-        resultsEl.appendChild(empty);
-        return;
-      }
-
-      list.forEach((macro) => {
-        const item = document.createElement("div");
-        item.className = "macro-item";
-        item.dataset.id = macro.id;
-
-        if (activeMacro && activeMacro.id === macro.id) {
-          item.classList.add("active");
-        }
-
-        const header = document.createElement("div");
-        header.className = "macro-header";
-
-        const titleWrap = document.createElement("div");
-        titleWrap.className = "macro-title";
-        titleWrap.textContent = macro.title || "(제목 없음)";
-
-        if (macro.category) {
-          const cat = document.createElement("span");
-          cat.className = "macro-category";
-          cat.textContent = macro.category;
-          titleWrap.appendChild(cat);
-        }
-
-        const miniCopy = document.createElement("button");
-        miniCopy.className = "copy-mini";
-        miniCopy.type = "button";
-        miniCopy.innerHTML = `<span class="icon">📋</span><span>원본</span>`;
-        miniCopy.addEventListener("click", (e) => {
-          e.stopPropagation();
-          copyToClipboard(macro.content || "");
-        });
-
-        header.appendChild(titleWrap);
-        header.appendChild(miniCopy);
-
-        const sub = document.createElement("div");
-        sub.className = "macro-subtext";
-        const stripped = (macro.content || "").replace(/\s+/g, " ");
-        sub.textContent = stripped.slice(0, 60) + (stripped.length > 60 ? "…" : "");
-
-        item.appendChild(header);
-        item.appendChild(sub);
-
-        item.addEventListener("click", () => {
-          selectMacro(macro);
-          document.querySelectorAll(".macro-item").forEach((el) => {
-            el.classList.remove("active");
-          });
-          item.classList.add("active");
-        });
-
-        item.addEventListener("mouseenter", () => {
-          showPreview(macro);
-        });
-
-        resultsEl.appendChild(item);
-      });
-    }
-
-    // 리스트 전체에서 벗어나면 미리보기 숨김
-    resultsEl.addEventListener("mouseleave", hidePreview);
-
-    function selectMacro(macro) {
-      activeMacro = { ...macro };
-
-      editorTitleEl.textContent = activeMacro.title || "(제목 없음)";
-      if (activeMacro.category) {
-        editorCategoryEl.textContent = activeMacro.category;
-        editorCategoryEl.style.display = "inline-block";
-      } else {
-        editorCategoryEl.style.display = "none";
-      }
-
-      editorTextarea.disabled = false;
-      editorCopyBtn.disabled = false;
-      editorResetBtn.disabled = false;
-
-      editorTextarea.value = activeMacro.content || "";
-      updateCharCount();
-      editorMetaEl.textContent = "선택된 메크로 편집 중";
-    }
-
-    function updateCharCount() {
-      const len = editorTextarea.value.length;
-      charCountEl.textContent = `${len}자`;
-    }
-
-    editorTextarea && editorTextarea.addEventListener("input", updateCharCount);
-
-    function copyToClipboard(text) {
-      if (!text) return;
-
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard
-          .writeText(text)
-          .then(() => showToast("복사되었습니다"))
-          .catch(() => fallbackCopy(text));
-      } else {
-        fallbackCopy(text);
-      }
-    }
-
-    function fallbackCopy(text) {
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      textarea.style.position = "fixed";
-      textarea.style.left = "-9999px";
-      document.body.appendChild(textarea);
-      textarea.focus();
-      textarea.select();
-
-      try {
-        document.execCommand("copy");
-        showToast("복사되었습니다");
-      } catch (e) {
-        alert("복사에 실패했습니다. 직접 선택해서 복사해 주세요.");
-      } finally {
-        document.body.removeChild(textarea);
-      }
-    }
-
-    editorCopyBtn.addEventListener("click", () => {
-      const text = editorTextarea.value || "";
-      if (!text) return;
-      copyToClipboard(text);
-    });
-
-    editorResetBtn.addEventListener("click", () => {
-      if (!activeMacro) return;
-      editorTextarea.value = activeMacro.content || "";
-      updateCharCount();
-      showToast("원본으로 되돌렸습니다");
-    });
-
-    function showToast(message) {
-      toastEl.textContent = message || "복사되었습니다";
-      toastEl.classList.add("show");
-      if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toastEl.classList.remove("show");
-      }, 1500);
-    }
-
-    function showPreview(macro) {
-      if (!macro || !macro.content) {
-        hidePreview();
-        return;
-      }
-      previewTitleTextEl.textContent = macro.title || "미리보기";
-      previewBodyTextEl.textContent = macro.content;
-      previewBubbleEl.style.display = "block";
-    }
-
-    function hidePreview() {
-      previewBubbleEl.style.display = "none";
-    }
-
-    function applySnippet(type) {
-      if (editorTextarea.disabled) return;
-
-      let text = editorTextarea.value || "";
-      const trimmed = text.trim();
-
-      if (type === "header") {
-        if (trimmed.startsWith(DEFAULT_HEADER)) {
-          showToast("이미 머리말이 들어가 있어요");
-          return;
-        }
-        const body = text.replace(/^\s+/, "");
-        editorTextarea.value = DEFAULT_HEADER + (body ? "\n\n" + body : "");
-      } else if (type === "footer") {
-        if (trimmed.endsWith(DEFAULT_FOOTER)) {
-          showToast("이미 꼬리말이 들어가 있어요");
-          return;
-        }
-        const withoutTrailing = text.replace(/\s+$/, "");
-        editorTextarea.value = (withoutTrailing ? withoutTrailing + "\n\n" : "") + DEFAULT_FOOTER;
-      } else if (type === "apology") {
-        if (trimmed.includes("더 좋은 상품과 서비스로 찾아뵙겠습니다")) {
-          showToast("이미 사과 문구가 들어가 있어요");
-          return;
-        }
-        const withoutTrailing = text.replace(/\s+$/, "");
-        editorTextarea.value = (withoutTrailing ? withoutTrailing + "\n\n" : "") + DEFAULT_APOLOGY;
-      }
-
-      updateCharCount();
-    }
-
-    snippetButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const type = btn.dataset.snippet;
-        applySnippet(type);
-      });
-    });
-
-    searchButton.addEventListener("click", searchMacros);
-    searchInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") searchMacros();
-    });
-    categorySelect.addEventListener("change", searchMacros);
-
-    loadMacrosFromSheet();
-  </script>
-</body>
-</html>
