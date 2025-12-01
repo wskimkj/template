@@ -3,35 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>상담 메크로 스튜디오 · Macro Studio</title>
+  <title>상담 메크로 검색 · 편집</title>
   <style>
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
       padding: 24px;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
-      background:
-        radial-gradient(circle at top left, #e0f2fe 0, transparent 50%),
-        radial-gradient(circle at bottom right, #f5d0fe 0, transparent 55%),
-        #f3f4f6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: radial-gradient(circle at top left, #eef2ff, #f9fafb 45%, #f3f4f6);
       display: flex;
       justify-content: center;
     }
 
     .app {
       width: 100%;
-      max-width: 1120px;
-      background: rgba(255, 255, 255, 0.96);
-      border-radius: 26px;
-      box-shadow:
-        0 20px 60px rgba(15, 23, 42, 0.16),
-        0 0 0 1px rgba(148, 163, 184, 0.2);
+      max-width: 1100px;
+      background: #ffffff;
+      border-radius: 24px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
       padding: 20px 22px 22px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      backdrop-filter: blur(16px);
     }
 
     .app-header {
@@ -48,76 +42,26 @@
       gap: 4px;
     }
 
-    .app-title-row {
+    .app-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111827;
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-wrap: wrap;
     }
 
-    .app-title {
-      font-size: 20px;
-      font-weight: 800;
-      color: #111827;
-      letter-spacing: -0.01em;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .app-title-emoji {
-      font-size: 20px;
-    }
-
-    .app-tag {
+    .app-pill {
       font-size: 11px;
-      padding: 3px 9px;
+      padding: 2px 8px;
       border-radius: 999px;
-      background: rgba(129, 140, 248, 0.1);
+      background: #eef2ff;
       color: #4f46e5;
-      border: 1px solid rgba(129, 140, 248, 0.3);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
     }
 
     .app-subtitle {
       font-size: 13px;
       color: #6b7280;
-    }
-
-    .header-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 6px;
-    }
-
-    .sheet-button {
-      padding: 6px 13px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      background: rgba(248, 250, 252, 0.9);
-      font-size: 12px;
-      color: #374151;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-      backdrop-filter: blur(10px);
-    }
-
-    .sheet-button span.icon {
-      font-size: 14px;
-    }
-
-    .sheet-button:hover {
-      background: #e5e7eb;
-    }
-
-    .sheet-caption {
-      font-size: 11px;
-      color: #9ca3af;
     }
 
     .search-box {
@@ -128,47 +72,36 @@
 
     .search-input {
       flex: 1;
-      padding: 10px 14px;
+      padding: 10px 12px;
       border-radius: 999px;
       border: 1px solid #d1d5db;
       font-size: 14px;
       outline: none;
-      transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s, transform 0.05s;
+      transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
       background: #f9fafb;
     }
 
     .search-input:focus {
-      border-color: #818cf8;
-      box-shadow:
-        0 0 0 1px rgba(129, 140, 248, 0.5),
-        0 10px 25px rgba(129, 140, 248, 0.18);
+      border-color: #6366f1;
+      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.45);
       background: #ffffff;
-      transform: translateY(-0.5px);
     }
 
     .search-button {
-      padding: 0 18px;
+      padding: 0 16px;
       border-radius: 999px;
       border: none;
-      background: linear-gradient(135deg, #6366f1, #a855f7);
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
       color: #ffffff;
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 10px 25px rgba(129, 140, 248, 0.45);
     }
 
     .search-button:hover {
-      opacity: 0.97;
+      opacity: 0.96;
       transform: translateY(-0.5px);
-    }
-
-    .search-button span.icon {
-      font-size: 14px;
     }
 
     .top-row {
@@ -183,10 +116,6 @@
     .result-count {
       font-size: 12px;
       color: #6b7280;
-    }
-
-    .result-count strong {
-      color: #4f46e5;
     }
 
     .category-filter {
@@ -207,20 +136,19 @@
 
     .app-body {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.25fr);
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.2fr);
       gap: 16px;
       min-height: 420px;
     }
 
     /* 왼쪽: 메크로 리스트 */
     .list-panel {
-      border-radius: 20px;
-      background: linear-gradient(145deg, #f9fafb, #eef2ff);
+      border-radius: 18px;
+      background: #f9fafb;
       padding: 10px 10px 10px 12px;
-      border: 1px solid rgba(209, 213, 219, 0.9);
+      border: 1px solid #e5e7eb;
       display: flex;
       flex-direction: column;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
     }
 
     .list-header {
@@ -234,13 +162,6 @@
       font-size: 13px;
       font-weight: 600;
       color: #4b5563;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .list-title span.icon {
-      font-size: 14px;
     }
 
     .list-hint {
@@ -257,28 +178,25 @@
     }
 
     .macro-item {
-      padding: 9px 6px 9px 4px;
-      border-bottom: 1px dashed rgba(209, 213, 219, 0.9);
+      padding: 9px 4px 9px 0;
+      border-bottom: 1px dashed #e5e7eb;
       display: flex;
       flex-direction: column;
       gap: 4px;
       cursor: pointer;
-      border-radius: 12px;
-      transition: background-color 0.12s, box-shadow 0.12s, transform 0.05s, border-color 0.12s;
+      border-radius: 10px;
+      transition: background-color 0.12s, box-shadow 0.12s, transform 0.05s;
     }
 
     .macro-item:hover {
-      background: rgba(224, 231, 255, 0.85);
-      box-shadow:
-        0 1px 0 rgba(148, 163, 184, 0.7),
-        0 6px 16px rgba(129, 140, 248, 0.25);
-      transform: translateY(-1px);
+      background: #eef2ff80;
+      box-shadow: 0 1px 0 rgba(148, 163, 184, 0.5);
+      transform: translateY(-0.5px);
     }
 
     .macro-item.active {
-      background: rgba(224, 231, 255, 1);
-      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.9);
-      border-color: transparent;
+      background: #eef2ff;
+      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.6);
     }
 
     .macro-header {
@@ -300,15 +218,14 @@
     .macro-category {
       font-size: 10px;
       border-radius: 999px;
-      padding: 2px 8px;
+      padding: 1px 7px;
       background: #eef2ff;
       color: #4f46e5;
-      border: 1px solid rgba(129, 140, 248, 0.3);
     }
 
     .macro-subtext {
       font-size: 11px;
-      color: #6b7280;
+      color: #9ca3af;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -319,16 +236,9 @@
       font-size: 11px;
       border-radius: 999px;
       border: 1px solid #d1d5db;
-      background: rgba(255, 255, 255, 0.9);
+      background: #ffffff;
       cursor: pointer;
       flex-shrink: 0;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .copy-mini span.icon {
-      font-size: 12px;
     }
 
     .copy-mini:hover {
@@ -344,16 +254,13 @@
 
     /* 오른쪽: 편집 패널 */
     .editor-panel {
-      border-radius: 20px;
-      border: 1px solid rgba(209, 213, 219, 0.9);
-      background: radial-gradient(circle at top left, #eef2ff, #f9fafb 55%);
+      border-radius: 18px;
+      border: 1px solid #e5e7eb;
+      background: linear-gradient(135deg, #f9fafb, #eef2ff);
       padding: 12px 14px 14px;
       display: flex;
       flex-direction: column;
       gap: 10px;
-      box-shadow:
-        0 12px 30px rgba(148, 163, 184, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
     }
 
     .editor-header {
@@ -366,13 +273,13 @@
     .editor-title-wrap {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 3px;
     }
 
     .editor-label {
       font-size: 11px;
       font-weight: 600;
-      letter-spacing: 0.09em;
+      letter-spacing: 0.03em;
       text-transform: uppercase;
       color: #9ca3af;
     }
@@ -393,50 +300,14 @@
     #editorCategory {
       font-size: 11px;
       border-radius: 999px;
-      padding: 2px 9px;
+      padding: 2px 8px;
       background: rgba(79, 70, 229, 0.1);
       color: #4f46e5;
-      border: 1px solid rgba(129, 140, 248, 0.5);
     }
 
     .editor-hint {
       font-size: 11px;
       color: #6b7280;
-    }
-
-    /* 기본 문구 버튼들 */
-    .snippet-controls {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 4px;
-    }
-
-    .snippet-label {
-      font-size: 11px;
-      color: #6b7280;
-      margin-right: 2px;
-    }
-
-    .snippet-btn {
-      font-size: 11px;
-      border-radius: 999px;
-      padding: 3px 9px;
-      border: 1px solid rgba(148, 163, 184, 0.9);
-      background: rgba(255, 255, 255, 0.9);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .snippet-btn:hover {
-      background: #e5e7eb;
-    }
-
-    .snippet-btn span.icon {
-      font-size: 12px;
     }
 
     .editor-actions {
@@ -447,7 +318,7 @@
     }
 
     .copy-main {
-      padding: 7px 16px;
+      padding: 6px 14px;
       border-radius: 999px;
       border: none;
       background: #111827;
@@ -456,18 +327,10 @@
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.45);
-    }
-
-    .copy-main span.icon {
-      font-size: 14px;
     }
 
     .copy-main:hover {
-      background: #020617;
+      background: #0f172a;
       transform: translateY(-0.5px);
     }
 
@@ -481,33 +344,28 @@
       padding: 0;
     }
 
-    .reset-btn:hover {
-      color: #4b5563;
-    }
-
     .editor-textarea {
       width: 100%;
       flex: 1;
       min-height: 260px;
       resize: vertical;
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.9);
+      border-radius: 14px;
+      border: 1px solid rgba(148, 163, 184, 0.8);
       padding: 10px 11px;
       font-family: inherit;
       font-size: 13px;
       line-height: 1.5;
       outline: none;
-      background: rgba(255, 255, 255, 0.98);
-      box-shadow:
-        inset 0 1px 2px rgba(15, 23, 42, 0.08),
-        0 0 0 1px rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.06);
     }
 
     .editor-textarea:focus {
       border-color: #6366f1;
       box-shadow:
-        inset 0 1px 2px rgba(15, 23, 42, 0.08),
-        0 0 0 1px rgba(129, 140, 248, 0.7);
+        inset 0 1px 2px rgba(15, 23, 42, 0.06),
+        0 0 0 1px rgba(129, 140, 248, 0.5);
+      background: #ffffff;
     }
 
     .editor-footer {
@@ -544,46 +402,6 @@
       transform: translateX(-50%) translateY(-4px);
     }
 
-    /* 호버 미리보기 버블 */
-    .preview-bubble {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-      max-width: 340px;
-      background: rgba(15, 23, 42, 0.96);
-      color: #e5e7eb;
-      border-radius: 16px;
-      padding: 10px 12px;
-      box-shadow:
-        0 18px 40px rgba(15, 23, 42, 0.85),
-        0 0 0 1px rgba(148, 163, 184, 0.6);
-      font-size: 12px;
-      backdrop-filter: blur(12px);
-      z-index: 9998;
-      display: none;
-    }
-
-    .preview-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .preview-title span.icon {
-      font-size: 14px;
-    }
-
-    .preview-body {
-      font-size: 12px;
-      line-height: 1.5;
-      max-height: 120px;
-      overflow: auto;
-      white-space: pre-wrap;
-      color: #e5e7eb;
-    }
-
     @media (max-width: 900px) {
       body { padding: 12px; }
       .app { padding: 16px 14px 16px; }
@@ -593,11 +411,6 @@
       .editor-panel {
         min-height: 260px;
       }
-      .preview-bubble {
-        right: 12px;
-        left: 12px;
-        max-width: none;
-      }
     }
   </style>
 </head>
@@ -605,27 +418,13 @@
   <div class="app">
     <div class="app-header">
       <div class="app-title-wrap">
-        <div class="app-title-row">
-          <div class="app-title">
-            <span class="app-title-emoji">💬</span>
-            상담 메크로 스튜디오
-          </div>
-          <div class="app-tag">
-            <span>⚡ 빠른 답변</span>
-            <span>·</span>
-            <span>Mz 감성 UI</span>
-          </div>
+        <div class="app-title">
+          상담 메크로 검색 · 편집
+          <span class="app-pill">Google Sheets 연동</span>
         </div>
         <div class="app-subtitle">
-          왼쪽에서 템플릿을 고르고, 오른쪽에서 고객님 상황에 맞게 살짝 커스터마이징해서 복사해 쓰는 공간이에요.
+          왼쪽에서 메크로를 고르고, 오른쪽에서 문구를 살짝 손본 뒤 복사해서 바로 붙여넣기 ✨
         </div>
-      </div>
-      <div class="header-actions">
-        <button id="sheetOpenBtn" class="sheet-button" type="button">
-          <span class="icon">📄</span>
-          <span>Google Sheets 열기</span>
-        </button>
-        <div class="sheet-caption">원본 메크로 DB를 바로 수정하고 싶을 때 클릭</div>
       </div>
     </div>
 
@@ -634,16 +433,13 @@
         id="searchInput"
         class="search-input"
         type="text"
-        placeholder="메크로 제목 또는 키워드를 검색해 보세요 (예: 배송, 교환, 위로 멘트 등)"
+        placeholder="메크로 제목 또는 키워드를 입력하세요 (예: 교환 안내, 배송 지연, 위로 멘트 등)"
       />
-      <button id="searchButton" class="search-button" type="button">
-        <span class="icon">🔍</span>
-        <span>검색</span>
-      </button>
+      <button id="searchButton" class="search-button">검색</button>
     </div>
 
     <div class="top-row">
-      <div id="resultCount" class="result-count">총 <strong>0</strong>개 메크로</div>
+      <div id="resultCount" class="result-count">총 0개 메크로</div>
       <div class="category-filter">
         분류:
         <select id="categorySelect" class="category-select">
@@ -656,11 +452,8 @@
       <!-- 왼쪽: 리스트 -->
       <div class="list-panel">
         <div class="list-header">
-          <div class="list-title">
-            <span class="icon">📚</span>
-            메크로 목록
-          </div>
-          <div class="list-hint">항목에 마우스를 올리면 하단에 미리보기 버블이 떠요</div>
+          <div class="list-title">메크로 목록</div>
+          <div class="list-hint">항목을 클릭하면 우측에 편집창이 열립니다</div>
         </div>
         <div id="results" class="results"></div>
       </div>
@@ -675,27 +468,12 @@
               <div id="editorCategory" style="display:none;"></div>
             </div>
             <div class="editor-hint">
-              선택한 메크로 문구를 여기에서 자유롭게 수정한 뒤, 아래 <strong>복사하기</strong> 버튼을 눌러서 상담창에 붙여넣어 주세요. ✨
-            </div>
-            <div class="snippet-controls">
-              <span class="snippet-label">빠른 문구:</span>
-              <button type="button" class="snippet-btn" data-snippet="header">
-                <span class="icon">👋</span><span>머리말</span>
-              </button>
-              <button type="button" class="snippet-btn" data-snippet="apology">
-                <span class="icon">💜</span><span>사과</span>
-              </button>
-              <button type="button" class="snippet-btn" data-snippet="footer">
-                <span class="icon">🙏</span><span>꼬리말</span>
-              </button>
+              선택한 메크로 문구를 여기에서 자유롭게 수정한 뒤, 아래 <strong>복사하기</strong> 버튼을 눌러주세요.
             </div>
           </div>
           <div class="editor-actions">
-            <button id="editorCopyBtn" class="copy-main" type="button" disabled>
-              <span class="icon">📋</span>
-              <span>복사하기</span>
-            </button>
-            <button id="editorResetBtn" class="reset-btn" type="button" disabled>원본으로 되돌리기</button>
+            <button id="editorCopyBtn" class="copy-main" disabled>복사하기</button>
+            <button id="editorResetBtn" class="reset-btn" disabled>원본으로 되돌리기</button>
           </div>
         </div>
 
@@ -714,33 +492,17 @@
     </div>
   </div>
 
-  <!-- 토스트 -->
   <div id="toast" class="toast">복사되었습니다</div>
-
-  <!-- 호버 미리보기 버블 -->
-  <div id="previewBubble" class="preview-bubble">
-    <div class="preview-title">
-      <span class="icon">👀</span>
-      <span id="previewTitleText">미리보기</span>
-    </div>
-    <div id="previewBodyText" class="preview-body"></div>
-  </div>
 
   <script>
     // === 1) 구글 시트 설정값 ===
     const SHEET_ID = "1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM";
     const SHEET_GID = "1260123292";
     const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${SHEET_GID}`;
-    const SHEET_LINK = "https://docs.google.com/spreadsheets/d/1_L12NKkBVU4c5xDPrYLUQRnSUG2NoAwYGWIfPDVO3bM/edit?gid=1260123292#gid=1260123292";
-
-    // 기본 문구
-    const DEFAULT_HEADER = "안녕하세요 화이트샌즈입니다.";
-    const DEFAULT_FOOTER = "화이트샌즈를 찾아주셔서 감사드립니다.";
-    const DEFAULT_APOLOGY = "더 좋은 상품과 서비스로 찾아뵙겠습니다.\n\n감사합니다.";
 
     let macros = [];
     let filteredMacros = [];
-    let activeMacro = null;
+    let activeMacro = null; // { title, category, content }
     let toastTimer = null;
 
     // === 2) CSV 파서 ===
@@ -789,17 +551,12 @@
         const dataRows = rows.slice(1); // 1행 = 헤더
 
         macros = dataRows
-          .map((cols, idx) => {
+          .map((cols) => {
             const title = (cols[0] || "").trim();
             const category = (cols[1] || "").trim();
             const content = (cols[2] || "").trim();
             if (!title && !content) return null;
-            return {
-              id: `macro-${idx}`,
-              title,
-              category,
-              content,
-            };
+            return { title, category, content };
           })
           .filter(Boolean);
 
@@ -829,19 +586,7 @@
 
     const toastEl = document.getElementById("toast");
 
-    const previewBubbleEl = document.getElementById("previewBubble");
-    const previewTitleTextEl = document.getElementById("previewTitleText");
-    const previewBodyTextEl = document.getElementById("previewBodyText");
-
-    const sheetOpenBtn = document.getElementById("sheetOpenBtn");
-    const snippetButtons = document.querySelectorAll(".snippet-btn");
-
-    // === 5) 시트 열기 버튼 ===
-    sheetOpenBtn.addEventListener("click", () => {
-      window.open(SHEET_LINK, "_blank", "noopener");
-    });
-
-    // === 6) 카테고리 옵션 생성 ===
+    // === 5) 카테고리 옵션 생성 ===
     function initCategoryOptions() {
       while (categorySelect.options.length > 1) {
         categorySelect.remove(1);
@@ -863,7 +608,7 @@
       });
     }
 
-    // === 7) 검색 ===
+    // === 6) 검색 ===
     function searchMacros() {
       const query = searchInput.value.trim().toLowerCase();
       const selectedCategory = categorySelect.value;
@@ -885,13 +630,12 @@
       }
 
       renderResults(filteredMacros);
-      hidePreview();
     }
 
-    // === 8) 리스트 렌더링 ===
+    // === 7) 리스트 렌더링 ===
     function renderResults(list) {
       resultsEl.innerHTML = "";
-      resultCountEl.innerHTML = `총 <strong>${list.length}</strong>개 메크로`;
+      resultCountEl.textContent = `총 ${list.length}개 메크로`;
 
       if (list.length === 0) {
         const empty = document.createElement("div");
@@ -901,12 +645,12 @@
         return;
       }
 
-      list.forEach((macro) => {
+      list.forEach((macro, index) => {
         const item = document.createElement("div");
         item.className = "macro-item";
-        item.dataset.id = macro.id;
+        item.dataset.index = index;
 
-        if (activeMacro && activeMacro.id === macro.id) {
+        if (activeMacro && activeMacro.__id === macro.__id) {
           item.classList.add("active");
         }
 
@@ -926,8 +670,7 @@
 
         const miniCopy = document.createElement("button");
         miniCopy.className = "copy-mini";
-        miniCopy.type = "button";
-        miniCopy.innerHTML = `<span class="icon">📋</span><span>원본</span>`;
+        miniCopy.textContent = "원본 복사";
         miniCopy.addEventListener("click", (e) => {
           e.stopPropagation();
           copyToClipboard(macro.content || "");
@@ -938,38 +681,30 @@
 
         const sub = document.createElement("div");
         sub.className = "macro-subtext";
-        const stripped = (macro.content || "").replace(/\s+/g, " ");
-        sub.textContent = stripped.slice(0, 60) + (stripped.length > 60 ? "…" : "");
+        sub.textContent = (macro.content || "").replace(/\s+/g, " ").slice(0, 60) + (macro.content.length > 60 ? "…" : "");
 
         item.appendChild(header);
         item.appendChild(sub);
 
-        // 클릭 → 편집창에서 선택
         item.addEventListener("click", () => {
           selectMacro(macro);
+          // active 스타일 갱신
           document.querySelectorAll(".macro-item").forEach((el) => {
             el.classList.remove("active");
           });
           item.classList.add("active");
         });
 
-        // 호버 → 미리보기 버블
-        item.addEventListener("mouseenter", () => {
-          showPreview(macro);
-        });
-        item.addEventListener("mouseleave", () => {
-          hidePreview();
-        });
-
         resultsEl.appendChild(item);
       });
-
-      resultsEl.addEventListener("mouseleave", hidePreview);
     }
 
-    // === 9) 메크로 선택 → 편집창으로 로드 ===
+    // === 8) 메크로 선택 → 편집창으로 로드 ===
     function selectMacro(macro) {
-      activeMacro = { ...macro };
+      activeMacro = {
+        ...macro,
+        __id: macro.__id || `${macro.title}-${Math.random().toString(36).slice(2)}`
+      };
 
       editorTitleEl.textContent = activeMacro.title || "(제목 없음)";
       if (activeMacro.category) {
@@ -988,7 +723,7 @@
       editorMetaEl.textContent = "선택된 메크로 편집 중";
     }
 
-    // === 10) 편집창: 글자수 표시 ===
+    // === 9) 편집창: 글자수 표시 ===
     function updateCharCount() {
       const len = editorTextarea.value.length;
       charCountEl.textContent = `${len}자`;
@@ -996,14 +731,14 @@
 
     editorTextarea && editorTextarea.addEventListener("input", updateCharCount);
 
-    // === 11) 클립보드 복사 ===
+    // === 10) 클립보드 복사 ===
     function copyToClipboard(text) {
       if (!text) return;
 
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard
           .writeText(text)
-          .then(() => showToast("복사되었습니다"))
+          .then(showToast)
           .catch(() => fallbackCopy(text));
       } else {
         fallbackCopy(text);
@@ -1021,7 +756,7 @@
 
       try {
         document.execCommand("copy");
-        showToast("복사되었습니다");
+        showToast();
       } catch (e) {
         alert("복사에 실패했습니다. 직접 선택해서 복사해 주세요.");
       } finally {
@@ -1036,7 +771,7 @@
       copyToClipboard(text);
     });
 
-    // === 12) 원본으로 되돌리기 ===
+    // === 11) 원본으로 되돌리기 ===
     editorResetBtn.addEventListener("click", () => {
       if (!activeMacro) return;
       editorTextarea.value = activeMacro.content || "";
@@ -1044,7 +779,7 @@
       showToast("원본으로 되돌렸습니다");
     });
 
-    // === 13) 토스트 ===
+    // === 12) 토스트 ===
     function showToast(message) {
       toastEl.textContent = message || "복사되었습니다";
       toastEl.classList.add("show");
@@ -1054,62 +789,7 @@
       }, 1500);
     }
 
-    // === 14) 미리보기 버블 ===
-    function showPreview(macro) {
-      if (!macro || !macro.content) {
-        hidePreview();
-        return;
-      }
-      previewTitleTextEl.textContent = macro.title || "미리보기";
-      previewBodyTextEl.textContent = macro.content;
-      previewBubbleEl.style.display = "block";
-    }
-
-    function hidePreview() {
-      previewBubbleEl.style.display = "none";
-    }
-
-    // === 15) 기본 문구 추가 로직 ===
-    function applySnippet(type) {
-      if (editorTextarea.disabled) return;
-
-      let text = editorTextarea.value || "";
-      const trimmed = text.trim();
-
-      if (type === "header") {
-        if (trimmed.startsWith(DEFAULT_HEADER)) {
-          showToast("이미 머리말이 들어가 있어요");
-          return;
-        }
-        const body = text.replace(/^\s+/, "");
-        editorTextarea.value = DEFAULT_HEADER + (body ? "\n\n" + body : "");
-      } else if (type === "footer") {
-        if (trimmed.endsWith(DEFAULT_FOOTER)) {
-          showToast("이미 꼬리말이 들어가 있어요");
-          return;
-        }
-        const withoutTrailing = text.replace(/\s+$/, "");
-        editorTextarea.value = (withoutTrailing ? withoutTrailing + "\n\n" : "") + DEFAULT_FOOTER;
-      } else if (type === "apology") {
-        if (trimmed.includes("더 좋은 상품과 서비스로 찾아뵙겠습니다")) {
-          showToast("이미 사과 문구가 들어가 있어요");
-          return;
-        }
-        const withoutTrailing = text.replace(/\s+$/, "");
-        editorTextarea.value = (withoutTrailing ? withoutTrailing + "\n\n" : "") + DEFAULT_APOLOGY;
-      }
-
-      updateCharCount();
-    }
-
-    snippetButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const type = btn.dataset.snippet;
-        applySnippet(type);
-      });
-    });
-
-    // === 16) 이벤트 바인딩 & 초기 로드 ===
+    // === 13) 이벤트 바인딩 & 초기 로드 ===
     searchButton.addEventListener("click", searchMacros);
     searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") searchMacros();
