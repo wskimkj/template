@@ -21,7 +21,7 @@
 
     .app {
       width: 100%;
-      max-width: 1120px;
+      max-width: 1280px; /* 🔹 가로폭 더 넓게 */
       background: rgba(255, 255, 255, 0.96);
       border-radius: 26px;
       box-shadow:
@@ -75,12 +75,13 @@
       font-size: 11px;
       padding: 3px 9px;
       border-radius: 999px;
-      background: rgba(129, 140, 248, 0.1);
+      background: rgba(129, 140, 248, 0.08);
       color: #4f46e5;
       border: 1px solid rgba(129, 140, 248, 0.3);
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      box-shadow: 0 4px 12px rgba(129, 140, 248, 0.35);
     }
 
     .app-subtitle {
@@ -132,29 +133,36 @@
 
     .search-input {
       flex: 1;
-      padding: 10px 14px;
+      padding: 12px 18px;
       border-radius: 999px;
-      border: 1px solid #d1d5db;
+      border: 1px solid rgba(209, 213, 219, 0.8);
       font-size: 14px;
       outline: none;
       transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s, transform 0.05s;
-      background: #f9fafb;
+      background: radial-gradient(circle at top left, #fdf2ff 0, #f9fafb 45%);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.9),
+        0 10px 30px rgba(148, 163, 184, 0.2);
+    }
+
+    .search-input::placeholder {
+      color: #9ca3af;
     }
 
     .search-input:focus {
-      border-color: #818cf8;
+      border-color: #a855f7;
       box-shadow:
-        0 0 0 1px rgba(129, 140, 248, 0.5),
-        0 10px 25px rgba(129, 140, 248, 0.18);
+        0 0 0 1px rgba(168, 85, 247, 0.7),
+        0 12px 32px rgba(129, 140, 248, 0.45);
       background: #ffffff;
       transform: translateY(-0.5px);
     }
 
     .search-button {
-      padding: 0 18px;
+      padding: 0 20px;
       border-radius: 999px;
       border: none;
-      background: linear-gradient(135deg, #6366f1, #a855f7);
+      background: linear-gradient(130deg, #6366f1, #a855f7);
       color: #ffffff;
       font-size: 14px;
       font-weight: 600;
@@ -163,7 +171,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      box-shadow: 0 10px 25px rgba(129, 140, 248, 0.45);
+      box-shadow: 0 14px 30px rgba(129, 140, 248, 0.55);
       flex-shrink: 0;
     }
 
@@ -365,7 +373,7 @@
         0 12px 30px rgba(148, 163, 184, 0.3),
         inset 0 1px 0 rgba(255, 255, 255, 0.7);
       min-height: 0;
-      position: relative; /* 🔹 미리보기 버블 기준 */
+      position: relative;
     }
 
     .editor-header {
@@ -559,24 +567,30 @@
       transform: translateX(-50%) translateY(-4px);
     }
 
-    /* 미리보기 버블: 에디터 패널 오른쪽 상단 */
+    /* 🔹 미리보기 버블: 메크로 목록 왼쪽, 밝은 글래스 스타일 */
     .preview-bubble {
       position: absolute;
-      right: 14px;
-      top: 54px;
+      top: 60px;
+      right: calc(100% + 14px); /* 목록 왼쪽으로 */
       width: 260px;
-      max-height: 150px;
-      background: rgba(15, 23, 42, 0.78); /* 살짝 투명 */
-      color: #e5e7eb;
-      border-radius: 14px;
-      padding: 8px 10px;
+      max-height: 200px;
+      background: radial-gradient(circle at top left, rgba(244, 244, 255, 0.98), rgba(250, 250, 255, 0.96));
+      color: #111827;
+      border-radius: 18px;
+      padding: 10px 12px;
       box-shadow:
-        0 18px 40px rgba(15, 23, 42, 0.85),
-        0 0 0 1px rgba(148, 163, 184, 0.6);
+        0 20px 45px rgba(129, 140, 248, 0.45),
+        0 0 0 1px rgba(196, 181, 253, 0.9);
       font-size: 12px;
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(18px);
       z-index: 20;
       display: none;
+      transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+    }
+
+    .preview-bubble.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .preview-title {
@@ -585,6 +599,8 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      font-size: 12px;
+      color: #4b5563;
     }
 
     .preview-title span.icon {
@@ -594,10 +610,10 @@
     .preview-body {
       font-size: 12px;
       line-height: 1.5;
-      max-height: 110px;
+      max-height: 150px;
       overflow: auto;
       white-space: pre-wrap;
-      color: #e5e7eb;
+      color: #374151;
     }
 
     @media (max-width: 900px) {
@@ -610,9 +626,12 @@
         min-height: 260px;
       }
       .preview-bubble {
-        right: 10px;
-        top: 50px;
-        width: 240px;
+        position: fixed;
+        right: 16px;
+        left: 16px;
+        top: auto;
+        bottom: 80px;
+        max-width: none;
       }
     }
   </style>
@@ -676,7 +695,16 @@
             <span class="icon">📚</span>
             메크로 목록
           </div>
-          <div class="list-hint">항목에 마우스를 올리면 미리보기 버블이 떠요</div>
+          <div class="list-hint">항목에 마우스를 올리면 왼쪽에 미리보기가 떠요</div>
+        </div>
+
+        <!-- 🔹 리스트 왼쪽에 떠 있는 미리보기 버블 -->
+        <div id="previewBubble" class="preview-bubble">
+          <div class="preview-title">
+            <span class="icon">👀</span>
+            <span id="previewTitleText">미리보기</span>
+          </div>
+          <div id="previewBodyText" class="preview-body"></div>
         </div>
 
         <div id="results" class="results"></div>
@@ -714,15 +742,6 @@
             </button>
             <button id="editorResetBtn" class="reset-btn" type="button" disabled>원본으로 되돌리기</button>
           </div>
-        </div>
-
-        <!-- 🔴 에디터 쪽 미리보기 버블 -->
-        <div id="previewBubble" class="preview-bubble">
-          <div class="preview-title">
-            <span class="icon">👀</span>
-            <span id="previewTitleText">미리보기</span>
-          </div>
-          <div id="previewBodyText" class="preview-body"></div>
         </div>
 
         <textarea
@@ -853,6 +872,8 @@
     const sheetOpenBtn = document.getElementById("sheetOpenBtn");
     const snippetButtons = document.querySelectorAll(".snippet-btn");
 
+    const listPanelEl = document.querySelector(".list-panel");
+
     // === 5) 시트 열기 버튼 ===
     sheetOpenBtn.addEventListener("click", () => {
       window.open(SHEET_LINK, "_blank", "noopener");
@@ -972,7 +993,7 @@
 
         // 호버 → 미리보기 버블
         item.addEventListener("mouseenter", () => {
-          showPreview(macro);
+          showPreview(macro, item);
         });
         item.addEventListener("mouseleave", () => {
           hidePreview();
@@ -1073,17 +1094,40 @@
     }
 
     // === 14) 미리보기 버블 ===
-    function showPreview(macro) {
-      if (!macro || !macro.content) {
+    function showPreview(macro, anchorEl) {
+      if (!macro || !macro.content || !anchorEl) {
         hidePreview();
         return;
       }
       previewTitleTextEl.textContent = macro.title || "미리보기";
       previewBodyTextEl.textContent = macro.content;
+
+      // 위치 계산을 위해 먼저 보이게
       previewBubbleEl.style.display = "block";
+      previewBubbleEl.style.opacity = "0";
+
+      const anchorRect = anchorEl.getBoundingClientRect();
+      const panelRect = listPanelEl.getBoundingClientRect();
+      const bubbleHeight = previewBubbleEl.offsetHeight || 160;
+
+      let top =
+        anchorRect.top -
+        panelRect.top +
+        anchorRect.height / 2 -
+        bubbleHeight / 2;
+
+      // 패널 안쪽으로 제한
+      const minTop = 40;
+      const maxTop = listPanelEl.clientHeight - bubbleHeight - 16;
+      top = Math.max(minTop, Math.min(top, maxTop));
+
+      previewBubbleEl.style.top = `${top}px`;
+      previewBubbleEl.style.opacity = "1";
+      previewBubbleEl.classList.add("visible");
     }
 
     function hidePreview() {
+      previewBubbleEl.classList.remove("visible");
       previewBubbleEl.style.display = "none";
     }
 
