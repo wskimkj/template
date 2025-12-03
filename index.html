@@ -22,7 +22,7 @@ body { margin:0; padding:24px; font-family:-apple-system,BlinkMacSystemFont,"SF 
   <div class="app-body">
     <div class="list-panel">
       <div class="list-header"> ... </div>
-      <div id="previewBubble" class="preview-bubble"> ... </div>
+      <div id="previewBubble." class="preview-bubble"> ... </div>
       <div id="results" class="results"></div>
     </div>
 
@@ -167,41 +167,73 @@ function renderResults(list){
     return;
   }
 
-  list.forEach(macro=>{
-    const item=document.createElement("div");
-    item.className="macro-item"; item.dataset.id=macro.id;
-    if(activeMacro && activeMacro.id===macro.id) item.classList.add("active");
+list.forEach((macro) => {
+  const item = document.createElement("div");
+  item.className = "macro-item";
+  item.dataset.id = macro.id;
 
-    const header=document.createElement("div"); header.className="macro-header";
-    const titleWrap=document.createElement("div"); titleWrap.className="macro-title";
-    titleWrap.textContent = macro.title||"(제목 없음)";
-    if(macro.category){
-      const cat = document.createElement("span"); cat.className="macro-category"; cat.textContent=macro.category;
-      titleWrap.appendChild(cat);
-    }
-    const miniCopy=document.createElement("button"); miniCopy.className="copy-mini"; miniCopy.type="button";
-    miniCopy.innerHTML=`<span class="icon">📋</span><span>원본</span>`;
-    miniCopy.addEventListener("click", e=>{ e.stopPropagation(); copyToClipboard(macro.content||""); });
-    header.appendChild(titleWrap); header.appendChild(miniCopy);
+  // 아이템 클릭 시 active
+  if (activeMacro && activeMacro.id === macro.id) {
+    item.classList.add("active");
+  }
 
-    const sub=document.createElement("div"); sub.className="macro-subtext";
-    const stripped=(macro.content||"").replace(/\s+/g," ");
-    sub.textContent = stripped.slice(0,60) + (stripped.length>60?"…":"");
+  const header = document.createElement("div");
+  header.className = "macro-header";
 
-    item.appendChild(header); item.appendChild(sub);
+  // 🔹 제목 = 템플릿 내용(D)
+  const titleWrap = document.createElement("div");
+  titleWrap.className = "macro-title";
+  titleWrap.textContent = macro.content || "(내용 없음)";
 
-    item.addEventListener("click",()=>{
-      selectMacro(macro);
-      document.querySelectorAll(".macro-item").forEach(el=>el.classList.remove("active"));
-      item.classList.add("active");
-    });
+  // 🔹 대분류 버튼(B)
+  if (macro.category) {
+    const catBtn = document.createElement("span");
+    catBtn.className = "macro-category"; // 기존 스타일 그대로 사용 가능
+    catBtn.style.background = "#eef2ff"; // 파랑 배경
+    catBtn.style.color = "#4f46e5";      // 글자 파랑
+    catBtn.textContent = macro.category; // B열
+    titleWrap.appendChild(catBtn);
+  }
 
-    item.addEventListener("mouseenter",()=>showPreview(macro,item));
-    item.addEventListener("mouseleave",()=>hidePreview());
+  // 🔹 소분류(C) 표시
+  if (macro.subcategory) {
+    const subEl = document.createElement("div");
+    subEl.className = "macro-subtext";
+    subEl.textContent = macro.subcategory; // C열
+    item.appendChild(subEl);
+  }
 
-    resultsEl.appendChild(item);
+  // 원본 복사 버튼
+  const miniCopy = document.createElement("button");
+  miniCopy.className = "copy-mini";
+  miniCopy.type = "button";
+  miniCopy.innerHTML = `<span class="icon">📋</span><span>원본</span>`;
+  miniCopy.addEventListener("click", (e) => {
+    e.stopPropagation();
+    copyToClipboard(macro.content || "");
   });
-}
+
+  header.appendChild(titleWrap);
+  header.appendChild(miniCopy);
+
+  item.appendChild(header);
+
+  // 클릭 → 편집창
+  item.addEventListener("click", () => {
+    selectMacro(macro);
+    document.querySelectorAll(".macro-item").forEach((el) => {
+      el.classList.remove("active");
+    });
+    item.classList.add("active");
+  });
+
+  // 호버 → 미리보기
+  item.addEventListener("mouseenter", () => showPreview(macro, item));
+  item.addEventListener("mouseleave", hidePreview);
+
+  resultsEl.appendChild(item);
+});
+
 
 // 메크로 선택
 function selectMacro(macro){
