@@ -21,7 +21,7 @@
 
     .app {
       width: 100%;
-      max-width: 1280px; /* 🔹 가로폭 더 넓게 */
+      max-width: 1280px;
       background: rgba(255, 255, 255, 0.96);
       border-radius: 26px;
       box-shadow:
@@ -32,7 +32,7 @@
       flex-direction: column;
       gap: 12px;
       backdrop-filter: blur(16px);
-      max-height: calc(100vh - 48px);
+      height: calc(100vh - 48px); /* 🔹 항상 화면 높이를 채우게 */
     }
 
     .app-header {
@@ -209,6 +209,7 @@
       display: flex;
       align-items: center;
       gap: 6px;
+      flex-wrap: wrap;
     }
 
     .category-select {
@@ -217,6 +218,38 @@
       border-radius: 999px;
       border: 1px solid #d1d5db;
       background: #f9fafb;
+    }
+
+    /* 🔹 구분 라디오 필터 */
+    .type-filter {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #4b5563;
+      margin-top: 4px;
+    }
+
+    .type-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background: #f9fafb;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .type-pill input {
+      margin: 0;
+    }
+
+    .type-pill.active {
+      border-color: #6366f1;
+      background: #eef2ff;
     }
 
     .app-body {
@@ -313,6 +346,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      flex-wrap: wrap;
     }
 
     .macro-category {
@@ -567,11 +601,11 @@
       transform: translateX(-50%) translateY(-4px);
     }
 
-    /* 🔹 미리보기 버블: 메크로 목록 왼쪽, 밝은 글래스 스타일 */
+    /* 🔹 미리보기 버블: 메크로 목록 오른쪽, 밝은 글래스 스타일 */
     .preview-bubble {
       position: absolute;
       top: 60px;
-      right: calc(100% + 14px); /* 목록 왼쪽으로 */
+      left: calc(100% + 14px); /* 목록 오른쪽으로 */
       width: 260px;
       max-height: 200px;
       background: radial-gradient(circle at top left, rgba(244, 244, 255, 0.98), rgba(250, 250, 255, 0.96));
@@ -618,7 +652,7 @@
 
     @media (max-width: 900px) {
       body { padding: 12px; }
-      .app { padding: 16px 14px 16px; max-height: none; }
+      .app { padding: 16px 14px 16px; height: auto; }
       .app-body {
         grid-template-columns: 1fr;
       }
@@ -678,7 +712,32 @@
     </div>
 
     <div class="top-row">
-      <div id="resultCount" class="result-count">총 <strong>0</strong>개 메크로</div>
+      <div>
+        <div id="resultCount" class="result-count">총 <strong>0</strong>개 메크로</div>
+        <div class="type-filter">
+          구분:
+          <label class="type-pill active">
+            <input type="radio" name="typeFilter" value="" checked />
+            전체
+          </label>
+          <label class="type-pill">
+            <input type="radio" name="typeFilter" value="통합" />
+            통합
+          </label>
+          <label class="type-pill">
+            <input type="radio" name="typeFilter" value="알림톡" />
+            알림톡
+          </label>
+          <label class="type-pill">
+            <input type="radio" name="typeFilter" value="채팅" />
+            채팅
+          </label>
+          <label class="type-pill">
+            <input type="radio" name="typeFilter" value="FAQ" />
+            FAQ
+          </label>
+        </div>
+      </div>
       <div class="category-filter">
         분류:
         <select id="categorySelect" class="category-select">
@@ -695,10 +754,10 @@
             <span class="icon">📚</span>
             메크로 목록
           </div>
-          <div class="list-hint">항목에 마우스를 올리면 왼쪽에 미리보기가 떠요</div>
+          <div class="list-hint">항목에 마우스를 올리면 오른쪽에 미리보기가 떠요</div>
         </div>
 
-        <!-- 🔹 리스트 왼쪽에 떠 있는 미리보기 버블 -->
+        <!-- 🔹 리스트 오른쪽에 떠 있는 미리보기 버블 -->
         <div id="previewBubble" class="preview-bubble">
           <div class="preview-title">
             <span class="icon">👀</span>
@@ -826,15 +885,20 @@
 
         macros = dataRows
           .map((cols, idx) => {
-            const title = (cols[0] || "").trim();
-            const category = (cols[1] || "").trim();
-            const content = (cols[2] || "").trim();
-            if (!title && !content) return null;
+            const major = (cols[0] || "").trim();   // A열 대분류
+            const minor = (cols[1] || "").trim();   // B열 소분류
+            const content = (cols[2] || "").trim(); // C열 텍스트
+            const typeTag = (cols[3] || "").trim(); // D열 구분
+
+            if (!major && !minor && !content) return null;
+
             return {
               id: `macro-${idx}`,
-              title,
-              category,
+              // 화면에는 "대분류"가 큰 제목, "소분류"가 태그로 노출
+              title: major,
+              category: minor,
               content,
+              typeTag,
             };
           })
           .filter(Boolean);
@@ -873,6 +937,8 @@
     const snippetButtons = document.querySelectorAll(".snippet-btn");
 
     const listPanelEl = document.querySelector(".list-panel");
+    const typeFilterRadios = document.querySelectorAll('input[name="typeFilter"]');
+    const typeFilterLabels = document.querySelectorAll(".type-pill");
 
     // === 5) 시트 열기 버튼 ===
     sheetOpenBtn.addEventListener("click", () => {
@@ -901,10 +967,12 @@
       });
     }
 
-    // === 7) 검색 ===
+    // === 7) 검색 & 필터 ===
     function searchMacros() {
       const query = searchInput.value.trim().toLowerCase();
       const selectedCategory = categorySelect.value;
+      const selectedTypeRadio = document.querySelector('input[name="typeFilter"]:checked');
+      const selectedType = selectedTypeRadio ? selectedTypeRadio.value : "";
 
       filteredMacros = macros;
 
@@ -914,11 +982,22 @@
         );
       }
 
+      if (selectedType) {
+        filteredMacros = filteredMacros.filter(
+          (m) => (m.typeTag || "").trim() === selectedType
+        );
+      }
+
       if (query) {
         filteredMacros = filteredMacros.filter((m) => {
           const title = (m.title || "").toLowerCase();
+          const category = (m.category || "").toLowerCase();
           const content = (m.content || "").toLowerCase();
-          return title.includes(query) || content.includes(query);
+          return (
+            title.includes(query) ||
+            category.includes(query) ||
+            content.includes(query)
+          );
         });
       }
 
@@ -953,12 +1032,12 @@
 
         const titleWrap = document.createElement("div");
         titleWrap.className = "macro-title";
-        titleWrap.textContent = macro.title || "(제목 없음)";
+        titleWrap.textContent = macro.title || "(대분류 없음)"; // 🔹 대분류가 큰 제목
 
         if (macro.category) {
           const cat = document.createElement("span");
           cat.className = "macro-category";
-          cat.textContent = macro.category;
+          cat.textContent = macro.category; // 🔹 소분류 태그
           titleWrap.appendChild(cat);
         }
 
@@ -1010,7 +1089,7 @@
     function selectMacro(macro) {
       activeMacro = { ...macro };
 
-      editorTitleEl.textContent = activeMacro.title || "(제목 없음)";
+      editorTitleEl.textContent = activeMacro.title || "(대분류 없음)";
       if (activeMacro.category) {
         editorCategoryEl.textContent = activeMacro.category;
         editorCategoryEl.style.display = "inline-block";
@@ -1024,7 +1103,12 @@
 
       editorTextarea.value = activeMacro.content || "";
       updateCharCount();
-      editorMetaEl.textContent = "선택된 메크로 편집 중";
+
+      if (activeMacro.typeTag) {
+        editorMetaEl.textContent = `구분: ${activeMacro.typeTag}`;
+      } else {
+        editorMetaEl.textContent = "선택된 메크로 편집 중";
+      }
     }
 
     // === 10) 편집창: 글자수 표시 ===
@@ -1171,12 +1255,24 @@
       });
     });
 
-    // === 16) 검색 이벤트 & 초기 로드 ===
+    // === 16) 필터 이벤트 & 초기 로드 ===
     searchButton.addEventListener("click", searchMacros);
     searchInput.addEventListener("keydown", (e) => {
       if (e.key === "Enter") searchMacros();
     });
     categorySelect.addEventListener("change", searchMacros);
+
+    typeFilterRadios.forEach((radio) => {
+      radio.addEventListener("change", () => {
+        typeFilterLabels.forEach((label) => label.classList.remove("active"));
+        const selected = document.querySelector('input[name="typeFilter"]:checked');
+        if (selected) {
+          const label = selected.closest(".type-pill");
+          if (label) label.classList.add("active");
+        }
+        searchMacros();
+      });
+    });
 
     // 페이지 열리면 시트에서 데이터 불러오기
     loadMacrosFromSheet();
