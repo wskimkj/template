@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title> TEMPLATE</title>
+  <title> TEMPLETE</title>
   <style>
     * { box-sizing: border-box; }
 
@@ -671,10 +671,26 @@
   </style>
 </head>
 <body>
- <div class="app-title">
-      Templete
-       </div>
-          <span></span>
+  <div class="app">
+    <div class="app-header">
+      <div class="app-title-wrap">
+        <div class="app-title-row">
+          <div class="app-title">
+            <span class="app-title-emoji">💬</span>
+            Templete
+          </div>
+          <div class="app-tag">
+            <span>⚡</span>
+          </div>
+        </div>
+        <div class="app-subtitle">
+          왼쪽에서 템플릿을 고르고, 오른쪽에서 고객님 상황에 맞게 살짝 커스터마이징해서 복사해 쓰는 공간이에요.
+        </div>
+      </div>
+      <div class="header-actions">
+        <button id="sheetOpenBtn" class="sheet-button" type="button">
+          <span class="icon">📄</span>
+          <span>Google Sheets 열기</span>
         </button>
         <div class="sheet-caption">원본 메크로 DB를 바로 수정하고 싶을 때 클릭</div>
       </div>
@@ -685,7 +701,7 @@
         id="searchInput"
         class="search-input"
         type="text"
-        placeholder="키워드를 검색해 보세요 (예: 배송, 교환 등)"
+        placeholder="메크로 제목 또는 키워드를 검색해 보세요 (예: 배송, 교환, 위로 멘트 등)"
       />
       <button id="searchButton" class="search-button" type="button">
         <span class="icon">🔍</span>
@@ -757,6 +773,7 @@
           <div class="editor-title-wrap">
             <div class="editor-label">ACTIVE MACRO</div>
             <div class="editor-title-line">
+              <div id="editorTitle"> 선택해 주세요</div>
               <div id="editorCategory" style="display:none;"></div>
             </div>
       
